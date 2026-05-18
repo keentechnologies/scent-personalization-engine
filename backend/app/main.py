@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
+from app.api.routes.health import router as health_router
+
 app = FastAPI()
 
 
-@app.get("/")
-def root():
-    return {"message": "Backend is running perfectly"}
+app.include_router(health_router)
