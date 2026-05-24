@@ -1,0 +1,62 @@
+<body>
+  <script type="text/javascript">
+    var configuration = {
+      widgetId: "3665736d6432313734393831",
+      tokenAuth: "518113TCEO4Ahdl56a0c622dP1",
+      identifier: "",
+      exposeMethods: "<true | false> (optional)", // When true will expose the methods for OTP verification. Refer 'How it works?' for more details
+      success: async (data) => {
+        console.log("MSG91 SUCCESS", data);
+
+        const response = await fetch(
+          "http://localhost:8000/auth/verify-msg91",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              access_token: data.message,
+            }),
+          },
+        );
+
+        const result = await response.json();
+
+        console.log("AUTH RESPONSE", result);
+
+        alert(JSON.stringify(result, null, 2));
+      },
+      failure: (error) => {
+        // handle error
+        console.log("failure reason", error);
+      },
+    };
+  </script>
+  <script type="text/javascript">
+    (function loadOtpScript(urls) {
+      let i = 0;
+      function attempt() {
+        const s = document.createElement("script");
+        s.src = urls[i];
+        s.async = true;
+        s.onload = () => {
+          if (typeof window.initSendOTP === "function") {
+            window.initSendOTP(configuration);
+          }
+        };
+        s.onerror = () => {
+          i++;
+          if (i < urls.length) {
+            attempt();
+          }
+        };
+        document.head.appendChild(s);
+      }
+      attempt();
+    })([
+      "https://verify.msg91.com/otp-provider.js",
+      "https://verify.phone91.com/otp-provider.js",
+    ]);
+  </script>
+</body>

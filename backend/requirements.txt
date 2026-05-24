@@ -3,3 +3,10 @@ uvicorn[standard]
 psycopg2-binary
 python-dotenv
 sqlalchemy
+alembic
+uuid6
+
+redis
+python-jose[cryptography]
+passlib[bcrypt]
+httpx
