@@ -12,6 +12,10 @@ from app.models.sensitivity_filter import SensitivityFilter
 from app.models.sensitivity_filter_history import SensitivityFilterHistory
 from app.models.gender_score_table import GenderScoreTable
 from app.models.gender_score_table_history import GenderScoreTableHistory
+from app.models.perception_score_table import PerceptionScoreTable
+from app.models.perception_score_table_history import PerceptionScoreTableHistory
+from app.models.personality_score_table import PersonalityScoreTable
+from app.models.personality_score_table_history import PersonalityScoreTableHistory
 from app.models.user_session import UserSession
 
 # this is the Alembic Config object, which provides

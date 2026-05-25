@@ -8,6 +8,8 @@ from fastapi.staticfiles import StaticFiles
 from app.api.routes.auth import router as auth_router
 from app.api.routes.sensitivity_filter import router as sensitivity_filter_router
 from app.api.routes.gender_score_table import router as gender_score_table_router
+from app.api.routes.perception_score_table import router as perception_score_table_router
+from app.api.routes.personality_score_table import router as personality_score_table_router
 from app.api.routes.sessions import router as sessions_router
 
 
@@ -22,6 +24,8 @@ app.include_router(msg91_router)
 app.include_router(auth_router)
 app.include_router(sensitivity_filter_router)
 app.include_router(gender_score_table_router)
+app.include_router(perception_score_table_router)
+app.include_router(personality_score_table_router)
 app.include_router(sessions_router)
 
 app.mount(
