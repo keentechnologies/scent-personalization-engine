@@ -16,6 +16,8 @@ from app.models.perception_score_table import PerceptionScoreTable
 from app.models.perception_score_table_history import PerceptionScoreTableHistory
 from app.models.personality_score_table import PersonalityScoreTable
 from app.models.personality_score_table_history import PersonalityScoreTableHistory
+from app.models.occasion_table import OccasionTable
+from app.models.occasion_table_history import OccasionTableHistory
 from app.models.user_session import UserSession
 
 # this is the Alembic Config object, which provides

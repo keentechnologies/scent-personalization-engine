@@ -123,7 +123,7 @@ def submit_personality_stage(
 
     db.add(history_row)
 
-    session.current_stage = "ocassion"
+    session.current_stage = "personality"
 
     db.commit()
 
