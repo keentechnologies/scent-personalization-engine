@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 
+from fastapi.middleware.cors import CORSMiddleware
+
 from app.api.routes.health import router as health_router
 from app.api.routes.redis_test import router as redis_router
 from app.api.routes.jwt_test import router as jwt_router
@@ -16,6 +18,20 @@ from app.api.routes.sessions import router as sessions_router
 
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+
+    allow_origins=[
+        "http://localhost:3000",
+    ],
+
+    allow_credentials=True,
+
+    allow_methods=["*"],
+
+    allow_headers=["*"],
+)
 
 
 app.include_router(health_router)
