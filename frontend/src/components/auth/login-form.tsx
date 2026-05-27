@@ -11,10 +11,15 @@ export default function LoginForm() {
 
   const [msgReady, setMsgReady] = useState(false);
 
-  const  widgetid = "3665736d6432313734393831";
-  const token = "518113TCEO4Ahdl56a0c622dP1"
+  const widgetId = "3665736d6432313734393831";
+
+  const tokenAuth = "518113TCEO4Ahdl56a0c622dP1";
 
   useEffect(() => {
+    if (window.__msg91Initialized) {
+      return;
+    }
+
     const initializeMSG91 = () => {
       if (!window.initSendOTP) {
         console.log("MSG91 SDK not loaded yet");
@@ -22,11 +27,13 @@ export default function LoginForm() {
       }
 
       const configuration = {
-        widgetId: widgetid,
+        widgetId,
 
-        tokenAuth: token,
+        tokenAuth,
 
         exposeMethods: true,
+
+        captchaRenderId: "msg91-captcha",
 
         success: (data: unknown) => {
           console.log("SUCCESS", data);
@@ -38,6 +45,8 @@ export default function LoginForm() {
       };
 
       window.initSendOTP(configuration);
+
+      window.__msg91Initialized = true;
 
       setMsgReady(true);
 
@@ -84,6 +93,7 @@ export default function LoginForm() {
         </div>
 
         <div className="mt-10 space-y-4">
+
           <input
             type="tel"
             placeholder="+91 98765 43210"
@@ -92,9 +102,11 @@ export default function LoginForm() {
             className="h-14 w-full rounded-2xl border border-neutral-300 px-4 outline-none"
           />
 
+          <div id="msg91-captcha"></div>
+
           <button
             onClick={handleContinue}
-            disabled={!msgReady}
+            disabled={!msgReady || phone.trim().length === 0}
             className="h-14 w-full rounded-2xl bg-black text-white disabled:opacity-50"
           >
             {msgReady ? "Continue" : "Loading..."}

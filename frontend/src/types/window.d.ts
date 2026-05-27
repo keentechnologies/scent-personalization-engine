@@ -18,4 +18,6 @@ interface Window {
     success?: (data: unknown) => void,
     failure?: (error: unknown) => void
   ) => void;
+
+  __msg91Initialized?: boolean;
 }
