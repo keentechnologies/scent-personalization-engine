@@ -17,9 +17,6 @@ def submit_sensitivity_stage(
     payload
 ):
     
-    print(UserSession.id)
-    print("--------")
-    print(payload.session_id)
 
     session = (
         db.query(UserSession)

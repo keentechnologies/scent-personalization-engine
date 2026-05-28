@@ -1,8 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { verifyMSG91Token } from "@/services/api/auth";
-import { setAuthData } from "@/lib/auth-storage";
+import { useRouter } from "next/navigation";
+import {
+  runPostLoginFlow,
+  type ExistingSessionResult,
+} from "@/services/auth/post-login-flow";
+import { createSession } from "@/services/api/session";
+import SessionRecoveryModal from "./session-recovery-modal";
 
 type OTPModalProps = {
   open: boolean;
@@ -10,44 +15,103 @@ type OTPModalProps = {
 };
 
 export default function OTPModal({ open, onClose }: OTPModalProps) {
+  const router = useRouter();
   const [otp, setOtp] = useState("");
 
   const [loading, setLoading] = useState(false);
+
+  const [showRecoveryModal, setShowRecoveryModal] = useState(false);
+
+  const [existingSession, setExistingSession] = useState<{
+    id: string;
+    current_stage: string;
+  } | null>(null);
+
+
+  const handleContinueSession = () => {
+    if (!existingSession) return;
+
+    localStorage.setItem(
+      "session_id",
+      existingSession.id,
+    );
+
+    console.log(
+      "CONTINUE SESSION:",
+      existingSession.current_stage,
+    );
+
+    router.push(
+      `/quiz/${existingSession.current_stage}`,
+    );
+  };
+
+  const handleStartFreshSession = async () => {
+    try {
+      const response = await createSession();
+
+      localStorage.setItem(
+        "session_id",
+        response.id,
+      );
+
+      console.log(
+        "FRESH SESSION CREATED",
+        localStorage.getItem("session_id")
+      );
+
+      router.push("/quiz/sensitivity");
+    } catch (error) {
+      console.log(
+        "FAILED TO CREATE FRESH SESSION",
+        error,
+      );
+    }
+  };
+
+
+  const handleVerifySuccess = async (data: unknown) => {
+    try {
+      const verifiedData = data as {
+        message: string;
+      };
+
+      const result = await runPostLoginFlow(verifiedData);
+
+      if (result.type === "existing_session") {
+        const existingSessionResult = result as ExistingSessionResult;
+
+        setExistingSession(existingSessionResult.session);
+
+        setShowRecoveryModal(true);
+      }
+
+      if (result.type === "new_session") {
+        localStorage.setItem("session_id", result.session.id);
+
+        console.log("NEW SESSION FLOW", result);
+
+        router.push("/quiz/sensitivity");
+      }
+    } catch (error) {
+      console.log("POST LOGIN FLOW FAILED", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyFailure = (error: unknown) => {
+    console.log("INVALID OTP", error);
+
+    setLoading(false);
+  };
 
   const handleVerifyOTP = () => {
     if (!otp) return;
 
     setLoading(true);
 
-    window.verifyOtp(
-      otp,
-
-      async (data) => {
-        try {
-          const verifiedData = data as {
-            message: string;
-          };
-
-          console.log("MSG91 VERIFIED", verifiedData);
-
-          const authResponse = await verifyMSG91Token({
-            access_token: verifiedData.message,
-          });
-          console.log("BACKEND AUTH SUCCESS");
-          setAuthData(authResponse);
-        } catch (error) {
-          console.log("BACKEND AUTH FAILED", error);
-        } finally {
-          setLoading(false);
-        }
-      },
-
-      (error) => {
-        console.log("INVALID OTP", error);
-
-        setLoading(false);
-      },
-    );
+    window.verifyOtp(otp, handleVerifySuccess, handleVerifyFailure);
   };
 
   if (!open) return null;
@@ -85,6 +149,13 @@ export default function OTPModal({ open, onClose }: OTPModalProps) {
           </button>
         </div>
       </div>
+
+      <SessionRecoveryModal
+        open={showRecoveryModal}
+        currentStage={existingSession?.current_stage || ""}
+        onContinue={handleContinueSession}
+        onStartFresh={handleStartFreshSession}
+      />
     </div>
   );
 }

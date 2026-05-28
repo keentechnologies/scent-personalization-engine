@@ -27,7 +27,7 @@ def create_session(
 
     session = UserSession(
         user_id=user_id,
-        current_stage="stage_1",
+        current_stage="sensitivity",
         status=SessionStatus.ACTIVE
     )
 
