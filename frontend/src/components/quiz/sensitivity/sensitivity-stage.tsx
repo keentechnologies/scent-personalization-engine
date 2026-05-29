@@ -2,6 +2,8 @@
 
 import { useState, useEffect } from "react";
 
+import { useRouter } from "next/navigation";
+
 import {
   submitSensitivityStage,
   getSensitivityStage,
@@ -47,6 +49,8 @@ type SensitivityState = {
 };
 
 export default function SensitivityStage() {
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
 
   const [answers, setAnswers] = useState<SensitivityState>({
@@ -102,8 +106,7 @@ export default function SensitivityStage() {
 
       console.log("SENSITIVITY STAGE SUBMITTED", response);
 
-      // later:
-      // router.push("/quiz/gender");
+      router.push("/quiz/gender");
     } catch (error) {
       console.log("FAILED TO SUBMIT SENSITIVITY", error);
     } finally {

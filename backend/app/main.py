@@ -14,8 +14,8 @@ from app.api.routes.perception_score_table import router as perception_score_tab
 from app.api.routes.personality_score_table import router as personality_score_table_router
 from app.api.routes.occasion_table import router as occasion_table_router
 from app.api.routes.sessions import router as sessions_router
-
-
+from app.api.routes.nimbus_test import router as nimbus_router
+from app.api.routes.pincode_free_delivery_check import router as pincode_router
 
 app = FastAPI()
 
@@ -43,6 +43,8 @@ app.include_router(perception_score_table_router)
 app.include_router(personality_score_table_router)
 app.include_router(occasion_table_router)
 app.include_router(sessions_router)
+app.include_router(nimbus_router)
+app.include_router(pincode_router)
 
 app.mount(
     "/static",
