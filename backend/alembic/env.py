@@ -19,6 +19,10 @@ from app.models.personality_score_table_history import PersonalityScoreTableHist
 from app.models.occasion_table import OccasionTable
 from app.models.occasion_table_history import OccasionTableHistory
 from app.models.user_session import UserSession
+from app.models.master_zone_table import MasterZoneTable
+from app.models.master_zone_climate_table import MasterZoneClimateTable
+from app.models.pincode_zoneid_mapping_table import PincodeZoneidMappingTable
+from app.models.climate_score_table import ClimateScoreTable
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

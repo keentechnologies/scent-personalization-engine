@@ -16,6 +16,7 @@ from app.api.routes.occasion_table import router as occasion_table_router
 from app.api.routes.sessions import router as sessions_router
 from app.api.routes.nimbus_test import router as nimbus_router
 from app.api.routes.pincode_free_delivery_check import router as pincode_router
+from app.api.routes.recommendation import router as recommendation_router
 
 app = FastAPI()
 
@@ -45,6 +46,7 @@ app.include_router(occasion_table_router)
 app.include_router(sessions_router)
 app.include_router(nimbus_router)
 app.include_router(pincode_router)
+app.include_router(recommendation_router)
 
 app.mount(
     "/static",

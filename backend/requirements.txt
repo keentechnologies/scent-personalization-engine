@@ -5,7 +5,7 @@ python-dotenv
 sqlalchemy
 alembic
 uuid6
-
+pandas
 redis
 python-jose[cryptography]
 passlib[bcrypt]

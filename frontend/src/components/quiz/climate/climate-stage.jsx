@@ -3,13 +3,14 @@
 import { useState } from "react";
 import { useEffect } from "react";
 
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 import { checkFreeDelivery } from "@/services/api/pincode";
 import ProcessingModal from "@/components/modals/processing-modal";
+import { generateRecommendations } from "@/services/api/recommendation";
 
 export default function ClimateStage() {
-  const router = useRouter();
+  // const router = useRouter();
 
   const [pincode, setPincode] = useState("");
 
@@ -80,11 +81,27 @@ export default function ClimateStage() {
   }, [processing]);
 
   const handleContinue = async () => {
+    
     try {
       setProcessing(true);
 
-      // const response =
-      //   await generateRecommendations();
+      const sessionId = localStorage.getItem("session_id");
+
+      console.log("-------", sessionId);
+
+      if (!sessionId) {
+        throw new Error("Session not found"); 
+      }
+
+      const payload = {
+        session_id: sessionId,
+        pincode: pincode
+      }
+
+      const response = await generateRecommendations(payload);
+
+      console.log("climate profile saved in db", response);
+
 
       await new Promise((resolve) => setTimeout(resolve, 1000000));
 
