@@ -207,80 +207,72 @@ export default function GenderStage() {
         onCancel={handleConfirmationCancel}
       />
 
-      <main className="min-h-screen bg-white">
-
-        <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-5 py-6">
-
-          <div className="space-y-2">
-
-            <h1 className="text-3xl font-semibold">
-              Gender Preference
-            </h1>
-
-            <p className="text-sm text-neutral-500">
-              Select your fragrance direction preferences.
-            </p>
-
-          </div>
-
-          <div className="mt-10 space-y-6">
-
-            {questions.map((item) => (
-              <div
-                key={item.key}
-                className="space-y-3"
-              >
-
-                <p className="text-base font-medium">
-                  {item.question}
-                </p>
-
-                <div className="grid grid-cols-3 gap-3">
-
-                  {options.map((option) => (
-                    <button
-                      key={option.label}
-                      type="button"
-                      onClick={() =>
-                        handleSelect(
-                          item.key as keyof GenderState,
-                          option.value,
-                        )
-                      }
-                      className={`rounded-2xl border px-4 py-3 text-sm ${
-                        answers[
-                          item.key as keyof GenderState
-                        ] === option.value
-                          ? "border-black bg-black text-white"
-                          : "border-neutral-300"
-                      }`}
-                    >
-                      {option.label}
-                    </button>
-                  ))}
-
-                </div>
-
-              </div>
-            ))}
-
-          </div>
-
-          <div className="mt-auto pt-10">
-
-            <button
-              onClick={handleSubmit}
-              disabled={loading}
-              className="h-14 w-full rounded-2xl bg-black text-white disabled:opacity-40"
-            >
-              {loading ? "Submitting..." : "Continue"}
-            </button>
-
-          </div>
-
+      <div className="flex-1 flex flex-col px-6 py-6 md:py-8 bg-transparent">
+        {/* ── Heading ── */}
+        <div className="space-y-2">
+          <h1 className="font-serif text-[32px] font-semibold leading-[1.15] tracking-[-0.02em] text-obsidian">
+            Gender Preference
+          </h1>
+          <p className="text-[14px] text-text-muted leading-relaxed">
+            Select your fragrance direction preferences.
+          </p>
         </div>
 
-      </main>
+        {/* ── Questions List ── */}
+        <div className="mt-8 space-y-6 flex-1">
+          {questions.map((item) => (
+            <div key={item.key} className="space-y-2.5">
+              <p className="text-[15px] font-medium text-obsidian">
+                {item.question}
+              </p>
+
+              <div className="grid grid-cols-3 gap-3">
+                {options.map((option) => (
+                  <button
+                    key={option.label}
+                    type="button"
+                    onClick={() =>
+                      handleSelect(
+                        item.key as keyof GenderState,
+                        option.value,
+                      )
+                    }
+                    className={`h-[52px] rounded-2xl border-2 text-[14px] font-semibold transition-all duration-200 cursor-pointer active:scale-[0.98] ${
+                      answers[item.key as keyof GenderState] === option.value
+                        ? "border-obsidian bg-obsidian text-cream"
+                        : "border-border bg-white text-obsidian md:hover:bg-ivory/50 md:hover:border-border-strong"
+                    }`}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Continue & Back Buttons ── */}
+        <div className="mt-8 pt-4">
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            className="group relative flex h-[52px] w-full items-center justify-center overflow-hidden rounded-2xl bg-obsidian text-[15px] font-semibold tracking-wide text-cream transition-all duration-200 active:scale-[0.98] disabled:opacity-35 disabled:active:scale-100 cursor-pointer md:hover:shadow-lg md:hover:-translate-y-[1px]"
+          >
+            <span className="relative z-10">
+              {loading ? "Submitting..." : "Continue"}
+            </span>
+            <span className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/[0.06] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => router.push("/quiz/sensitivity")}
+            className="mt-3 flex h-[52px] w-full items-center justify-center rounded-2xl border-2 border-obsidian bg-transparent text-[15px] font-semibold tracking-wide text-obsidian transition-all duration-200 active:scale-[0.98] cursor-pointer md:hover:bg-obsidian/5"
+          >
+            Back
+          </button>
+        </div>
+      </div>
 
     </>
   );

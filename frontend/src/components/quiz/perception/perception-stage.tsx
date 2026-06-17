@@ -314,77 +314,73 @@ export default function PerceptionStage() {
   }, []);
 
   return (
-    <main className="min-h-screen bg-white">
-
-      <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-5 py-6">
-
-        <div className="space-y-2">
-
-          <h1 className="text-3xl font-semibold">
-            Perception
-          </h1>
-
-          <p className="text-sm text-neutral-500 leading-6">
-            Select at least 5 descriptors that best
-            match how you want your fragrance to
-            feel.
-          </p>
-
-        </div>
-
-        <div className="mt-10 flex flex-wrap gap-3">
-
-          {descriptors.map((item) => (
-            <button
-              key={item.key}
-              type="button"
-              onClick={() =>
-                handleToggle(
-                  item.key as keyof PerceptionState,
-                )
-              }
-              className={`rounded-2xl border px-4 py-3 text-sm ${
-                answers[
-                  item.key as keyof PerceptionState
-                ]
-                  ? "border-black bg-black text-white"
-                  : "border-neutral-300"
-              }`}
-            >
-              {item.label}
-            </button>
-          ))}
-
-        </div>
-
-        <div className="mt-4">
-
-          <p className="text-sm text-neutral-500">
-            {selectedCount} selected
-          </p>
-
-          {validationError && (
-            <p className="mt-2 text-sm text-red-500">
-              {validationError}
-            </p>
-          )}
-
-        </div>
-
-        <div className="mt-auto pt-10">
-
-          <button
-            onClick={handleSubmit}
-            disabled={loading}
-            className="h-14 w-full rounded-2xl bg-black text-white disabled:opacity-40"
-          >
-            {loading ? "Submitting..." : "Continue"}
-          </button>
-
-        </div>
-
+    <div className="flex-1 flex flex-col px-6 py-6 md:py-8 bg-transparent">
+      {/* ── Heading ── */}
+      <div className="space-y-2">
+        <h1 className="font-serif text-[32px] font-semibold leading-[1.15] tracking-[-0.02em] text-obsidian">
+          Perception
+        </h1>
+        <p className="text-[14px] text-text-muted leading-relaxed">
+          Select at least 5 descriptors that best match how you want your fragrance to feel.
+        </p>
       </div>
 
-    </main>
+      {/* ── Descriptors Cloud ── */}
+      <div className="mt-8 flex flex-wrap gap-2.5 flex-1 content-start">
+        {descriptors.map((item) => (
+          <button
+            key={item.key}
+            type="button"
+            onClick={() =>
+              handleToggle(
+                item.key as keyof PerceptionState,
+              )
+            }
+            className={`rounded-full px-5 py-2.5 text-[14px] font-semibold border-2 transition-all duration-200 cursor-pointer active:scale-[0.96] ${
+              answers[item.key as keyof PerceptionState]
+                ? "border-obsidian bg-obsidian text-cream shadow-sm"
+                : "border-border bg-white text-obsidian md:hover:bg-ivory/50 md:hover:border-border-strong"
+            }`}
+          >
+            {item.label}
+          </button>
+        ))}
+      </div>
+
+      {/* ── Selection Count and Error Info ── */}
+      <div className="mt-6">
+        <p className="text-[13px] font-semibold uppercase tracking-wider text-text-muted">
+          {selectedCount} Selected (Min 5)
+        </p>
+
+        {validationError && (
+          <p className="mt-2 text-sm text-error font-medium">
+            {validationError}
+          </p>
+        )}
+      </div>
+
+      {/* ── Continue & Back Buttons ── */}
+      <div className="mt-8 pt-4">
+        <button
+          onClick={handleSubmit}
+          disabled={loading}
+          className="group relative flex h-[52px] w-full items-center justify-center overflow-hidden rounded-2xl bg-obsidian text-[15px] font-semibold tracking-wide text-cream transition-all duration-200 active:scale-[0.98] disabled:opacity-35 disabled:active:scale-100 cursor-pointer md:hover:shadow-lg md:hover:-translate-y-[1px]"
+        >
+          <span className="relative z-10">
+            {loading ? "Submitting..." : "Continue"}
+          </span>
+          <span className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/[0.06] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+        </button>
+
+        <button
+          type="button"
+          onClick={() => router.push("/quiz/gender")}
+          className="mt-3 flex h-[52px] w-full items-center justify-center rounded-2xl border-2 border-obsidian bg-transparent text-[15px] font-semibold tracking-wide text-obsidian transition-all duration-200 active:scale-[0.98] cursor-pointer md:hover:bg-obsidian/5"
+        >
+          Back
+        </button>
+      </div>
+    </div>
   );
 }

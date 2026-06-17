@@ -19,26 +19,23 @@ export default function GenderConfirmationModal({
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-5">
-
-      <div className="w-full max-w-sm rounded-3xl bg-white p-6">
-
-        <h2 className="text-xl font-semibold">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-5 backdrop-blur-sm">
+      <div className="w-full max-w-sm rounded-3xl bg-cream border border-border p-6 shadow-xl">
+        <h2 className="font-serif text-xl font-semibold text-obsidian">
           Continue with neutral preferences?
         </h2>
 
-        <p className="mt-3 text-sm text-neutral-600 leading-6">
+        <p className="mt-3 text-[14px] text-text-muted leading-relaxed">
           You selected that you do not mind masculine,
           feminine, or unisex fragrance directions.
           Are you sure you want to continue?
         </p>
 
         <div className="mt-6 flex gap-3">
-
           <button
             type="button"
             onClick={onCancel}
-            className="h-12 flex-1 rounded-2xl border border-neutral-300"
+            className="h-[48px] flex-1 rounded-2xl border-2 border-border bg-white text-[14px] font-semibold text-obsidian transition-all duration-200 active:scale-[0.98] cursor-pointer hover:bg-ivory/50"
           >
             Cancel
           </button>
@@ -46,15 +43,12 @@ export default function GenderConfirmationModal({
           <button
             type="button"
             onClick={onConfirm}
-            className="h-12 flex-1 rounded-2xl bg-black text-white"
+            className="h-[48px] flex-1 rounded-2xl bg-obsidian text-[14px] font-semibold text-cream transition-all duration-200 active:scale-[0.98] cursor-pointer"
           >
             Continue
           </button>
-
         </div>
-
       </div>
-
     </div>
   );
 }

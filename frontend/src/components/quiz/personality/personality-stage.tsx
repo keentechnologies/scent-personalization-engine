@@ -106,11 +106,11 @@ export default function PersonalityStage() {
     }));
   };
 
-  const allZero =
-    answers.pr_1 === 0 &&
-    answers.pr_2 === 0 &&
-    answers.pr_3 === 0 &&
-    answers.pr_4 === 0 &&
+  const anyZero =
+    answers.pr_1 === 0 ||
+    answers.pr_2 === 0 ||
+    answers.pr_3 === 0 ||
+    answers.pr_4 === 0 ||
     answers.pr_5 === 0;
 
   const submitPersonality = async () => {
@@ -154,7 +154,7 @@ export default function PersonalityStage() {
 
   const handleSubmit = async () => {
 
-    if (allZero) {
+    if (anyZero) {
       setShowConfirmationModal(true);
 
       return;
@@ -227,100 +227,85 @@ export default function PersonalityStage() {
         onCancel={handleConfirmationCancel}
       />
 
-      <main className="min-h-screen bg-white">
-
-        <div className="mx-auto flex min-h-screen w-full max-w-md flex-col px-5 py-6">
-
-          <div className="space-y-2">
-
-            <h1 className="text-3xl font-semibold">
-              Personality Fit
-            </h1>
-
-            <p className="text-sm leading-6 text-neutral-500">
-              How strongly does each personality type
-              reflect who you are? Rate each on a
-              scale from 0 to 100.
-            </p>
-
-          </div>
-
-          <div className="mt-10 space-y-8">
-
-            {personalities.map((item) => (
-              <div
-                key={item.key}
-                className="space-y-4 rounded-3xl border border-neutral-200 p-5"
-              >
-
-                <div className="space-y-2">
-
-                  <h2 className="text-lg font-semibold">
-                    {item.title}
-                  </h2>
-
-                  <p className="text-sm leading-6 text-neutral-600">
-                    {item.description}
-                  </p>
-
-                </div>
-
-                <div className="space-y-3">
-
-                  <input
-                    type="range"
-                    min={0}
-                    max={100}
-                    value={
-                      answers[
-                        item.key as keyof PersonalityState
-                      ]
-                    }
-                    onChange={(event) =>
-                      handleSliderChange(
-                        item.key as keyof PersonalityState,
-                        Number(event.target.value),
-                      )
-                    }
-                    className="w-full"
-                  />
-
-                  <div className="flex justify-between text-sm text-neutral-500">
-                    <span>0</span>
-
-                    <span>
-                      {
-                        answers[
-                          item.key as keyof PersonalityState
-                        ]
-                      }
-                    </span>
-
-                    <span>100</span>
-                  </div>
-
-                </div>
-
-              </div>
-            ))}
-
-          </div>
-
-          <div className="mt-auto pt-10">
-
-            <button
-              onClick={handleSubmit}
-              disabled={loading}
-              className="h-14 w-full rounded-2xl bg-black text-white disabled:opacity-40"
-            >
-              {loading ? "Submitting..." : "Continue"}
-            </button>
-
-          </div>
-
+      <div className="flex-1 flex flex-col px-6 py-6 md:py-8 bg-transparent">
+        {/* ── Heading ── */}
+        <div className="space-y-2">
+          <h1 className="font-serif text-[32px] font-semibold leading-[1.15] tracking-[-0.02em] text-obsidian">
+            Personality Fit
+          </h1>
+          <p className="text-[14px] text-text-muted leading-relaxed">
+            How strongly does each personality type reflect who you are? Rate each on a scale from 0 to 100.
+          </p>
         </div>
 
-      </main>
+        {/* ── Personality Sliders ── */}
+        <div className="mt-8 space-y-6 flex-1">
+          {personalities.map((item) => (
+            <div
+              key={item.key}
+              className="space-y-4 rounded-3xl border-2 border-border bg-white p-5 shadow-sm transition-all hover:border-border-strong"
+            >
+              <div className="space-y-1.5">
+                <h2 className="font-serif text-[18px] font-bold text-obsidian">
+                  {item.title}
+                </h2>
+                <p className="text-[13px] text-text-muted leading-relaxed">
+                  {item.description}
+                </p>
+              </div>
+
+              <div className="space-y-3">
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  value={answers[item.key as keyof PersonalityState]}
+                  onChange={(event) =>
+                    handleSliderChange(
+                      item.key as keyof PersonalityState,
+                      Number(event.target.value),
+                    )
+                  }
+                  style={{
+                    background: `linear-gradient(to right, #0A0A0A 0%, #0A0A0A ${answers[item.key as keyof PersonalityState]}%, #F5F0EB ${answers[item.key as keyof PersonalityState]}%, #F5F0EB 100%)`
+                  }}
+                  className="w-full accent-obsidian h-1.5 rounded-lg appearance-none cursor-pointer border border-border"
+                />
+
+                <div className="flex justify-between text-[12px] font-bold text-text-muted uppercase tracking-wider">
+                  <span>Not at all</span>
+                  <span className="text-obsidian font-serif text-[14px]">
+                    {answers[item.key as keyof PersonalityState]}%
+                  </span>
+                  <span>Very much</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Continue & Back Buttons ── */}
+        <div className="mt-8 pt-4">
+          <button
+            onClick={handleSubmit}
+            disabled={loading}
+            className="group relative flex h-[52px] w-full items-center justify-center overflow-hidden rounded-2xl bg-obsidian text-[15px] font-semibold tracking-wide text-cream transition-all duration-200 active:scale-[0.98] disabled:opacity-35 disabled:active:scale-100 cursor-pointer md:hover:shadow-lg md:hover:-translate-y-[1px]"
+          >
+            <span className="relative z-10">
+              {loading ? "Submitting..." : "Continue"}
+            </span>
+            <span className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/[0.06] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => router.push("/quiz/perception")}
+            className="mt-3 flex h-[52px] w-full items-center justify-center rounded-2xl border-2 border-obsidian bg-transparent text-[15px] font-semibold tracking-wide text-obsidian transition-all duration-200 active:scale-[0.98] cursor-pointer md:hover:bg-obsidian/5"
+          >
+            Back
+          </button>
+        </div>
+      </div>
 
     </>
   );
