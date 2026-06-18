@@ -41,6 +41,16 @@ class PerceptionScoreTableSubmitRequest(BaseModel):
 
     p_17: bool = False
 
+    p_18: bool = False
+
+    p_19: bool = False
+
+    p_20: bool = False
+
+    p_21: bool = False
+
+    p_22: bool = False
+
 
 class PerceptionScoreTableSubmitResponse(BaseModel):
 
@@ -88,6 +98,16 @@ class PerceptionScoreTableResponse(BaseModel):
     p_16: bool
 
     p_17: bool
+
+    p_18: bool
+
+    p_19: bool
+
+    p_20: bool
+
+    p_21: bool
+
+    p_22: bool
 
     class Config:
 

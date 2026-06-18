@@ -1,5 +1,7 @@
+# pyrefly: ignore [missing-import]
 from uuid6 import uuid7
 
+# pyrefly: ignore [missing-import]
 from sqlalchemy import (
     Boolean,
     ForeignKey
@@ -133,6 +135,36 @@ class PerceptionScoreTableHistory(Base):
     )
 
     p_17: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False
+    )
+
+    p_18: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False
+    )
+
+    p_19: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False
+    )
+
+    p_20: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False
+    )
+
+    p_21: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
+        nullable=False
+    )
+
+    p_22: Mapped[bool] = mapped_column(
         Boolean,
         default=False,
         nullable=False

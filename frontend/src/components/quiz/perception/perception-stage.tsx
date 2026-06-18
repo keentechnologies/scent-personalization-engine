@@ -34,67 +34,92 @@ const descriptors = [
 
   {
     key: "p_5",
-    label: "Attention-grabbing",
-  },
-
-  {
-    key: "p_6",
-    label: "Understated",
-  },
-
-  {
-    key: "p_7",
     label: "Effortless",
   },
 
   {
-    key: "p_8",
+    key: "p_6",
     label: "Refined",
   },
 
   {
-    key: "p_9",
-    label: "Luxurious",
-  },
-
-  {
-    key: "p_10",
+    key: "p_7",
     label: "Elite",
   },
 
   {
-    key: "p_11",
-    label: "Polished",
-  },
-
-  {
-    key: "p_12",
+    key: "p_8",
     label: "Grounded",
   },
 
   {
-    key: "p_13",
+    key: "p_9",
     label: "Dependable",
   },
 
   {
-    key: "p_14",
-    label: "Playful",
+    key: "p_10",
+    label: "Mature",
   },
 
   {
-    key: "p_15",
+    key: "p_11",
+    label: "Youthful",
+  },
+
+  {
+    key: "p_12",
     label: "Romantic",
   },
 
   {
+    key: "p_13",
+    label: "Mysterious",
+  },
+
+  {
+    key: "p_14",
+    label: "Bold",
+  },
+
+  {
+    key: "p_15",
+    label: "Expressive",
+  },
+
+  {
     key: "p_16",
-    label: "Inviting",
+    label: "Subtle",
   },
 
   {
     key: "p_17",
-    label: "Bold",
+    label: "Fresh",
+  },
+
+  {
+    key: "p_18",
+    label: "Light",
+  },
+
+  {
+    key: "p_19",
+    label: "Energizing",
+  },
+
+  {
+    key: "p_20",
+    label: "Rich",
+  },
+
+  {
+    key: "p_21",
+    label: "Attractive",
+  },
+
+  {
+    key: "p_22",
+    label: "Warm",
   },
 ];
 
@@ -132,6 +157,16 @@ type PerceptionState = {
   p_16: boolean;
 
   p_17: boolean;
+
+  p_18: boolean;
+
+  p_19: boolean;
+
+  p_20: boolean;
+
+  p_21: boolean;
+
+  p_22: boolean;
 };
 
 const initialState: PerceptionState = {
@@ -168,6 +203,16 @@ const initialState: PerceptionState = {
   p_16: false,
 
   p_17: false,
+
+  p_18: false,
+
+  p_19: false,
+
+  p_20: false,
+
+  p_21: false,
+
+  p_22: false,
 };
 
 export default function PerceptionStage() {
@@ -298,6 +343,16 @@ export default function PerceptionStage() {
           p_16: response.p_16,
 
           p_17: response.p_17,
+
+          p_18: response.p_18,
+
+          p_19: response.p_19,
+
+          p_20: response.p_20,
+
+          p_21: response.p_21,
+
+          p_22: response.p_22,
         });
 
       } catch (error) {

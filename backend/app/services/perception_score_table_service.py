@@ -56,7 +56,12 @@ def submit_perception_stage(
         payload.p_14,
         payload.p_15,
         payload.p_16,
-        payload.p_17
+        payload.p_17,
+        payload.p_18,
+        payload.p_19,
+        payload.p_20,
+        payload.p_21,
+        payload.p_22
     ])
 
     if selected_count < 5:
@@ -153,6 +158,27 @@ def submit_perception_stage(
         payload.p_17
     )
 
+    perception_row.p_18 = (
+        payload.p_18
+    )
+
+    perception_row.p_19 = (
+        payload.p_19
+    )
+
+    perception_row.p_20 = (
+        payload.p_20
+    )
+
+    perception_row.p_21 = (
+        payload.p_21
+    )
+
+    perception_row.p_22 = (
+        payload.p_22
+    )
+
+
     history_row = PerceptionScoreTableHistory(
 
         session_id=payload.session_id,
@@ -223,6 +249,26 @@ def submit_perception_stage(
 
         p_17=(
             payload.p_17
+        ),
+
+        p_18=(
+            payload.p_18
+        ),
+
+        p_19=(
+            payload.p_19
+        ),
+
+        p_20=(
+            payload.p_20
+        ),
+
+        p_21=(
+            payload.p_21
+        ),
+
+        p_22=(
+            payload.p_22
         )
     )
 

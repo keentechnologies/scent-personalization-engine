@@ -38,6 +38,16 @@ type PerceptionPayload = {
   p_16: boolean;
 
   p_17: boolean;
+
+  p_18: boolean;
+
+  p_19: boolean;
+
+  p_20: boolean;
+
+  p_21: boolean;
+
+  p_22: boolean;
 };
 
 export async function submitPerceptionStage(
