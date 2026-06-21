@@ -23,6 +23,21 @@ from app.models.master_zone_table import MasterZoneTable
 from app.models.master_zone_climate_table import MasterZoneClimateTable
 from app.models.pincode_zoneid_mapping_table import PincodeZoneidMappingTable
 from app.models.climate_score_table import ClimateScoreTable
+from app.models.master_accord_table import MasterAccordTable
+from app.models.master_personality_accord_mapping import MasterPersonalityAccordMapping
+from app.models.master_personality_table import MasterPersonalityTable
+from app.models.master_gender_table import MasterGenderTable
+from app.models.master_perception_table import MasterPerceptionTable
+from app.models.master_perception_accord_mapping import MasterPerceptionAccordMapping
+from app.models.master_sensitivity_table import MasterSensitivityTable
+from app.models.master_sensitivity_accord_mapping import MasterSensitivityAccordMapping
+from app.models.master_climate_table import MasterClimateTable
+from app.models.master_climate_accord_mapping import MasterClimateAccordMapping
+
+
+
+
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

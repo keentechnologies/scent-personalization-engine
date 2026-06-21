@@ -52,18 +52,10 @@ def generate_recommendation(
         }
 
     # STEP 2
-    # Master profile generation
+    # Final accord table genration(calaculation and all pre processing) and saving the data to db
+    
 
     # STEP 3
-    # Score calculation
-
-    # STEP 4
-    # Accord processing
-
-    # STEP 5
-    # Candidate selection
-
-    # STEP 6
     # LLM recommendation generation
 
     return {
