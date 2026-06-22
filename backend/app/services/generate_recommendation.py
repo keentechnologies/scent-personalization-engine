@@ -7,6 +7,7 @@ from app.services.accord_score_service import (
     compute_and_store_all_accord_scores,
 )
 from app.models.user_session import UserSession
+from app.services.llm.recommendation_service import LLMRecommendationService
 
 
 def generate_recommendation(
@@ -71,10 +72,18 @@ def generate_recommendation(
 
     # STEP 3
     # LLM recommendation generation
-    
-    
+    try:
+        recommendation_text = LLMRecommendationService(db).generate_recommendations(
+            session_id=payload.session_id,
+            current_user=current_user
+        )
+    except Exception as error:
+        return {
+            "success": False,
+            "message": f"LLM Recommendation failed: {str(error)}"
+        }
 
     return {
         "success": True,
-        "message": str(accord_scores)
+        "message": recommendation_text
     }

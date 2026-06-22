@@ -17,6 +17,8 @@ class Settings:
         os.getenv("JWT_ACCESS_TOKEN_EXPIRE_DAYS", 7)
     )
     MSG91_AUTH_KEY = os.getenv("MSG91_AUTH_KEY")
+    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+    OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
 
 
 settings = Settings()
