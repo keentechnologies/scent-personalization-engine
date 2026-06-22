@@ -21,12 +21,41 @@ export async function POST(request: Request) {
       );
     }
 
-    // Try saving to src/data/interests.json (repository file - local development)
+    const timestamp = new Date().toISOString();
+    const source = process.env.VERCEL ? "Production (Vercel)" : "Local Development";
+
+    // 1. Send data to Google Sheets Webhook if configured
+    const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+    if (webhookUrl) {
+      try {
+        const sheetResponse = await fetch(webhookUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone: cleanedPhone,
+            timestamp,
+            source,
+          }),
+        });
+        if (sheetResponse.ok) {
+          console.log("Successfully sent phone number to Google Sheets.");
+        } else {
+          console.warn("Google Sheets webhook returned a non-ok status:", sheetResponse.status);
+        }
+      } catch (err: any) {
+        console.error("Failed to send data to Google Sheets Webhook:", err.message);
+      }
+    } else {
+      console.log("Google Sheets Webhook URL is not configured. Skipping Sheets sync.");
+    }
+
+    // 2. Local fallback storage (always logs locally for testing)
     const localDataDir = path.join(process.cwd(), "src", "data");
     const localFilePath = path.join(localDataDir, "interests.json");
     
-    let success = false;
-    let errorMsg = "";
+    let localSaved = false;
 
     try {
       await fs.mkdir(localDataDir, { recursive: true });
@@ -43,18 +72,18 @@ export async function POST(request: Request) {
       if (!exists) {
         interests.push({
           phone: cleanedPhone,
-          timestamp: new Date().toISOString(),
+          timestamp,
         });
         await fs.writeFile(localFilePath, JSON.stringify(interests, null, 2), "utf-8");
       }
-      success = true;
+      localSaved = true;
     } catch (localError: any) {
-      console.warn("Local filesystem write failed (read-only in serverless/Vercel). Falling back to /tmp. Error:", localError.message);
-      errorMsg = localError.message;
+      // Log local fs failure (expected on read-only Vercel)
+      console.warn("Local filesystem save bypassed (expected on Vercel):", localError.message);
     }
 
-    // Fallback to /tmp/interests.json if local write failed (Vercel Serverless environment)
-    if (!success) {
+    // 3. Temporary /tmp storage fallback on Vercel as secondary backup
+    if (!localSaved && !webhookUrl) {
       try {
         const tmpFilePath = path.join("/tmp", "interests.json");
         let interests: Array<{ phone: string; timestamp: string }> = [];
@@ -63,23 +92,19 @@ export async function POST(request: Request) {
           const data = await fs.readFile(tmpFilePath, "utf-8");
           interests = JSON.parse(data);
         } catch (e) {
-          // file doesn't exist in /tmp
+          // file doesn't exist
         }
 
         const exists = interests.some((item) => item.phone === cleanedPhone);
         if (!exists) {
           interests.push({
             phone: cleanedPhone,
-            timestamp: new Date().toISOString(),
+            timestamp,
           });
           await fs.writeFile(tmpFilePath, JSON.stringify(interests, null, 2), "utf-8");
         }
-        success = true;
-        console.log("Successfully wrote phone number to Vercel /tmp/interests.json storage.");
       } catch (tmpError: any) {
-        console.error("Failed to write to /tmp fallback:", tmpError.message);
-        // Even if both fail, we don't want to throw a 500 error to the end user for a simple interest form
-        // return success so the frontend flow doesn't break, but log it
+        console.error("Failed writing to temporary /tmp storage:", tmpError.message);
       }
     }
 
