@@ -21,33 +21,66 @@ export async function POST(request: Request) {
       );
     }
 
-    const dataDir = path.join(process.cwd(), "src", "data");
-    const filePath = path.join(dataDir, "interests.json");
+    // Try saving to src/data/interests.json (repository file - local development)
+    const localDataDir = path.join(process.cwd(), "src", "data");
+    const localFilePath = path.join(localDataDir, "interests.json");
+    
+    let success = false;
+    let errorMsg = "";
 
-    // Ensure the src/data directory exists
-    await fs.mkdir(dataDir, { recursive: true });
-
-    let interests: Array<{ phone: string; timestamp: string }> = [];
-
-    // Read the existing file if it exists
     try {
-      const data = await fs.readFile(filePath, "utf-8");
-      interests = JSON.parse(data);
-    } catch (error) {
-      // File doesn't exist yet, start with empty list
+      await fs.mkdir(localDataDir, { recursive: true });
+      let interests: Array<{ phone: string; timestamp: string }> = [];
+      
+      try {
+        const data = await fs.readFile(localFilePath, "utf-8");
+        interests = JSON.parse(data);
+      } catch (e) {
+        // file doesn't exist
+      }
+
+      const exists = interests.some((item) => item.phone === cleanedPhone);
+      if (!exists) {
+        interests.push({
+          phone: cleanedPhone,
+          timestamp: new Date().toISOString(),
+        });
+        await fs.writeFile(localFilePath, JSON.stringify(interests, null, 2), "utf-8");
+      }
+      success = true;
+    } catch (localError: any) {
+      console.warn("Local filesystem write failed (read-only in serverless/Vercel). Falling back to /tmp. Error:", localError.message);
+      errorMsg = localError.message;
     }
 
-    // Check if phone number already exists to avoid duplicates
-    const exists = interests.some((item) => item.phone === cleanedPhone);
-    if (!exists) {
-      // Append the new interest record
-      interests.push({
-        phone: cleanedPhone,
-        timestamp: new Date().toISOString(),
-      });
+    // Fallback to /tmp/interests.json if local write failed (Vercel Serverless environment)
+    if (!success) {
+      try {
+        const tmpFilePath = path.join("/tmp", "interests.json");
+        let interests: Array<{ phone: string; timestamp: string }> = [];
 
-      // Write the updated list back to the file
-      await fs.writeFile(filePath, JSON.stringify(interests, null, 2), "utf-8");
+        try {
+          const data = await fs.readFile(tmpFilePath, "utf-8");
+          interests = JSON.parse(data);
+        } catch (e) {
+          // file doesn't exist in /tmp
+        }
+
+        const exists = interests.some((item) => item.phone === cleanedPhone);
+        if (!exists) {
+          interests.push({
+            phone: cleanedPhone,
+            timestamp: new Date().toISOString(),
+          });
+          await fs.writeFile(tmpFilePath, JSON.stringify(interests, null, 2), "utf-8");
+        }
+        success = true;
+        console.log("Successfully wrote phone number to Vercel /tmp/interests.json storage.");
+      } catch (tmpError: any) {
+        console.error("Failed to write to /tmp fallback:", tmpError.message);
+        // Even if both fail, we don't want to throw a 500 error to the end user for a simple interest form
+        // return success so the frontend flow doesn't break, but log it
+      }
     }
 
     return NextResponse.json({ success: true });

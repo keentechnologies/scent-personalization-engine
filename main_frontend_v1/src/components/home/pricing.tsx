@@ -89,7 +89,7 @@ export function Pricing() {
               </div>
 
               <button onClick={openComingSoon} className="btn-gold pricing-cta w-full justify-center whitespace-normal text-center">
-                Start Discovery — ₹1,200
+                Start Discovery ₹1,200
                 <ArrowRight className="icon w-[19px] h-[19px]" />
               </button>
             </div>
@@ -153,7 +153,7 @@ export function Pricing() {
               </div>
 
               <button onClick={openComingSoon} className="btn-gold pricing-cta w-full justify-center whitespace-normal text-center">
-                Start Discovery — ₹2,000
+                Start Discovery ₹2,000
                 <ArrowRight className="icon w-[19px] h-[19px]" />
               </button>
             </div>
@@ -212,7 +212,7 @@ export function Pricing() {
                 Perfect to discover your signature fragrance. Custom-crafted, premium glass bottle, and delivered in 4 days.
               </p>
               <button onClick={openComingSoon} className="mp-btn flex items-center justify-center gap-[8px] w-full border border-gold rounded-[8px] py-[14px] text-gold text-[14px] font-semibold">
-                Start Discovery — ₹1,200
+                Start Discovery ₹1,200
                 <ArrowRight className="w-[15px] h-[15px]" />
               </button>
             </div>
@@ -243,7 +243,7 @@ export function Pricing() {
                 Recommended for daily wear. Twice the volume, better value per ml, and longer lasting fragrance supply.
               </p>
               <button onClick={openComingSoon} className="mp-btn flex items-center justify-center gap-[8px] w-full border border-gold rounded-[8px] py-[14px] text-gold text-[14px] font-semibold">
-                Start Discovery — ₹2,000
+                Start Discovery ₹2,000
                 <ArrowRight className="w-[15px] h-[15px]" />
               </button>
             </div>
