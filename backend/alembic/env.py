@@ -33,6 +33,7 @@ from app.models.master_sensitivity_table import MasterSensitivityTable
 from app.models.master_sensitivity_accord_mapping import MasterSensitivityAccordMapping
 from app.models.master_climate_table import MasterClimateTable
 from app.models.master_climate_accord_mapping import MasterClimateAccordMapping
+from app.models.user_accord_score_table import UserAccordScoreTable
 
 
 

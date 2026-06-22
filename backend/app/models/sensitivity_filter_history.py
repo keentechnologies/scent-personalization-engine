@@ -1,3 +1,5 @@
+from typing import Optional
+
 from uuid6 import uuid7
 
 from sqlalchemy import (
@@ -36,27 +38,27 @@ class SensitivityFilterHistory(Base):
         nullable=False
     )
 
-    has_migraine_issues: Mapped[bool | None] = mapped_column(
+    has_migraine_issues: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    has_respiratory_issues: Mapped[bool | None] = mapped_column(
+    has_respiratory_issues: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    has_skin_sensitivity: Mapped[bool | None] = mapped_column(
+    has_skin_sensitivity: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    has_strong_smell_discomfort: Mapped[bool | None] = mapped_column(
+    has_strong_smell_discomfort: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    has_body_odour_concern: Mapped[bool | None] = mapped_column(
+    has_body_odour_concern: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )

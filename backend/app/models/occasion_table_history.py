@@ -1,3 +1,5 @@
+from typing import Optional
+
 from uuid6 import uuid7
 
 from sqlalchemy import (
@@ -36,222 +38,222 @@ class OccasionTableHistory(Base):
         nullable=False
     )
 
-    oc_1: Mapped[bool | None] = mapped_column(
+    oc_1: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_2: Mapped[bool | None] = mapped_column(
+    oc_2: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_3: Mapped[bool | None] = mapped_column(
+    oc_3: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_4: Mapped[bool | None] = mapped_column(
+    oc_4: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_5: Mapped[bool | None] = mapped_column(
+    oc_5: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_6: Mapped[bool | None] = mapped_column(
+    oc_6: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_7: Mapped[bool | None] = mapped_column(
+    oc_7: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_8: Mapped[bool | None] = mapped_column(
+    oc_8: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_9: Mapped[bool | None] = mapped_column(
+    oc_9: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_10: Mapped[bool | None] = mapped_column(
+    oc_10: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_11: Mapped[bool | None] = mapped_column(
+    oc_11: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_12: Mapped[bool | None] = mapped_column(
+    oc_12: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_13: Mapped[bool | None] = mapped_column(
+    oc_13: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_14: Mapped[bool | None] = mapped_column(
+    oc_14: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_15: Mapped[bool | None] = mapped_column(
+    oc_15: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_16: Mapped[bool | None] = mapped_column(
+    oc_16: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_17: Mapped[bool | None] = mapped_column(
+    oc_17: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_18: Mapped[bool | None] = mapped_column(
+    oc_18: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_19: Mapped[bool | None] = mapped_column(
+    oc_19: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_20: Mapped[bool | None] = mapped_column(
+    oc_20: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_21: Mapped[bool | None] = mapped_column(
+    oc_21: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_22: Mapped[bool | None] = mapped_column(
+    oc_22: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_23: Mapped[bool | None] = mapped_column(
+    oc_23: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_24: Mapped[bool | None] = mapped_column(
+    oc_24: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_25: Mapped[bool | None] = mapped_column(
+    oc_25: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_26: Mapped[bool | None] = mapped_column(
+    oc_26: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_27: Mapped[bool | None] = mapped_column(
+    oc_27: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_28: Mapped[bool | None] = mapped_column(
+    oc_28: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_29: Mapped[bool | None] = mapped_column(
+    oc_29: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_30: Mapped[bool | None] = mapped_column(
+    oc_30: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_31: Mapped[bool | None] = mapped_column(
+    oc_31: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_32: Mapped[bool | None] = mapped_column(
+    oc_32: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_33: Mapped[bool | None] = mapped_column(
+    oc_33: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_34: Mapped[bool | None] = mapped_column(
+    oc_34: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_35: Mapped[bool | None] = mapped_column(
+    oc_35: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_36: Mapped[bool | None] = mapped_column(
+    oc_36: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_37: Mapped[bool | None] = mapped_column(
+    oc_37: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_38: Mapped[bool | None] = mapped_column(
+    oc_38: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_39: Mapped[bool | None] = mapped_column(
+    oc_39: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_40: Mapped[bool | None] = mapped_column(
+    oc_40: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_41: Mapped[bool | None] = mapped_column(
+    oc_41: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_42: Mapped[bool | None] = mapped_column(
+    oc_42: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_43: Mapped[bool | None] = mapped_column(
+    oc_43: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
 
-    oc_44: Mapped[bool | None] = mapped_column(
+    oc_44: Mapped[Optional[bool]] = mapped_column(
         Boolean,
         nullable=True
     )
