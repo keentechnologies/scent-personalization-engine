@@ -13,19 +13,22 @@ export function Header() {
   const toggleMenu = () => setIsOpen(!isOpen);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-border bg-[#151311]/85 backdrop-blur-md">
+    <header
+      className="sticky top-0 z-50 border-b border-border bg-[#151311] lg:bg-[#151311]/85 lg:backdrop-blur-md pt-[env(safe-area-inset-top)]"
+      style={{ transform: "translate3d(0,0,0)", willChange: "transform" }}
+    >
       <div className="container header-inner flex h-[64px] items-center justify-between lg:h-[78px]">
         {/* Logo */}
         <Link href="#top" className="logo-wrap flex items-center gap-[10px]">
           <Image
             src="/assets/logo.png"
             alt="Crafted Sprays"
-            width={34}
-            height={34}
-            className="h-[34px] w-auto"
+            width={75}
+            height={75}
+            className="h-[5rem] w-auto"
             priority
           />
-          <span className="heading-serif text-[17px] tracking-[.03em] lg:text-[20px]">
+          <span className="heading-serif text-[20px] tracking-[.03em] lg:text-[1.5rem]">
             Crafted Sprays
           </span>
         </Link>

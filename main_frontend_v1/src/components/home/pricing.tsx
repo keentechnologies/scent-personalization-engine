@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import {
   Fingerprint,
   FlaskConical,
@@ -12,7 +11,6 @@ import {
   Clock,
   ShieldCheck,
   ArrowRight,
-  Award,
 } from "lucide-react";
 
 import { useComingSoon } from "@/components/coming-soon/coming-soon-provider";
@@ -20,9 +18,29 @@ import { useComingSoon } from "@/components/coming-soon/coming-soon-provider";
 export function Pricing() {
   const { openComingSoon } = useComingSoon();
   return (
-    <section id="pricing" className="py-[60px] lg:py-[90px] bg-bg">
+    <section id="pricing" className="relative overflow-hidden py-[60px] lg:py-[90px] bg-bg">
+      <div className="absolute inset-0 hidden lg:block z-0">
+        <Image
+          src="/assets/pricing-bg-desktop.png"
+          alt="Premium perfume bottles and fragrance notes"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
+      <div className="absolute inset-0 block lg:hidden z-0">
+        <Image
+          src="/assets/pricing-bg-mobile.png"
+          alt="Premium perfume bottle with packaging and scent blotters"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
+      <div className="absolute inset-0 z-0 bg-[#151311]/76 lg:bg-[#151311]/68" />
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_78%_86%,rgba(196,130,58,0.13),transparent_32%),linear-gradient(180deg,rgba(21,19,17,0.88)_0%,rgba(21,19,17,0.68)_46%,rgba(21,19,17,0.94)_100%)] lg:bg-[radial-gradient(circle_at_12%_72%,rgba(196,130,58,0.12),transparent_28%),radial-gradient(circle_at_88%_72%,rgba(196,130,58,0.11),transparent_30%),linear-gradient(180deg,rgba(21,19,17,0.9)_0%,rgba(21,19,17,0.66)_48%,rgba(21,19,17,0.92)_100%)]" />
       {/* Desktop Layout */}
-      <div className="container hidden lg:block">
+      <div className="container relative z-10 hidden lg:block">
         <div className="section-head text-center max-w-[640px] mx-auto mb-[56px]">
           <p className="eyebrow justify-center mb-[14px]">Choose Your Bottle :</p>
           <h2 className="heading-serif text-[36px] mb-[14px]">Crafted for You, Bottled Your Way</h2>
@@ -174,7 +192,7 @@ export function Pricing() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="container block lg:hidden">
+      <div className="container relative z-10 block lg:hidden">
         <div className="mobile-pricing-extra">
           {/* Header */}
           <div className="text-center mb-[32px]">

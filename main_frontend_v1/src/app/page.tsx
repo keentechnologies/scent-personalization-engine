@@ -7,13 +7,25 @@ import { FinalCta } from "@/components/home/final-cta";
 
 export default function Home() {
   return (
-    <>
-      <Hero />
-      <WhyUs />
-      <HowItWorks />
-      <Pricing />
-      <Faq />
-      <FinalCta />
-    </>
+    <div className="flex flex-col">
+      <div className="order-1 lg:order-1">
+        <Hero />
+      </div>
+      <div className="order-4 lg:order-2">
+        <WhyUs />
+      </div>
+      <div className="order-2 lg:order-3">
+        <HowItWorks />
+      </div>
+      <div className="order-3 lg:order-4">
+        <Pricing />
+      </div>
+      <div className="order-6 lg:order-5">
+        <Faq />
+      </div>
+      <div className="order-5 lg:order-6">
+        <FinalCta />
+      </div>
+    </div>
   );
 }

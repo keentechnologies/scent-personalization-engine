@@ -59,7 +59,7 @@ export function Hero() {
             <Sparkle className="icon text-gold w-[15px] h-[15px]" />
             AI-Powered Scent Discovery
           </p>
-          
+
           <h1 className="heading-serif hero-h1 text-[32px] sm:text-[44px] lg:text-[44px] leading-[1.1] mb-[20px]">
             The Best Fragrance<br />
             <span className="text-gold">Isn&apos;t</span> The Most<br />
@@ -82,7 +82,7 @@ export function Hero() {
                 See Pricing
               </Link>
             </div>
-            
+
             {/* Desktop Badges */}
             <div className="badge-row flex gap-[28px]">
               <div className="badge flex flex-col items-center text-center gap-[14px] flex-1">
@@ -129,7 +129,7 @@ export function Hero() {
                 <p className="text-[12px] text-text-primary">Discover</p>
               </div>
               <ArrowRight className="icon mobile-step-arrow w-[16px] h-[16px] text-gold mt-[16px] flex-shrink-0 opacity-70" />
-              
+
               <div className="mobile-step flex flex-col items-center gap-[8px] text-center">
                 <div className="mobile-step-icon w-[48px] h-[48px] rounded-full border border-border flex items-center justify-center flex-shrink-0 bg-[#151311]/40 text-gold">
                   <User className="w-[19px] h-[19px]" />
@@ -211,11 +211,11 @@ export function Hero() {
                 <User className="w-[16px] h-[16px]" />
               </div>
             </div>
-            
+
             {/* Personality Traits */}
             <div>
               <p className="eyebrow mb-[14px]">Personality</p>
-              
+
               <div className="trait mb-[8px]">
                 <div className="flex justify-between text-[12.5px] mb-[4px]">
                   <span className="text-text-secondary">Minimalist</span>
@@ -278,7 +278,7 @@ export function Hero() {
             </div>
 
             <hr className="divider my-[15px]" />
-            
+
             {/* Desired Impression */}
             <div>
               <p className="eyebrow mb-[14px]">Desired Impression</p>
@@ -290,7 +290,7 @@ export function Hero() {
             </div>
 
             <hr className="divider my-[15px]" />
-            
+
             {/* Fragrance Family */}
             <div className="flex justify-between items-center">
               <div>
@@ -348,7 +348,7 @@ export function Hero() {
                   />
                 </div>
                 {/* Connectors & Labels aligned exactly to top, mid, base segments of the pyramid */}
-                <div className="relative flex-1 flex flex-col justify-between h-full pl-[4px]">
+                <div className="relative flex-1 flex flex-col justify-between h-full pl-[6px]">
                   {/* Top Note Connector */}
                   <div className="flex items-start gap-[8px] pt-[8px] z-10">
                     <span className="block h-[1px] bg-border w-[38px] mt-[10px] flex-shrink-0" />
@@ -369,7 +369,7 @@ export function Hero() {
                   </div>
                   {/* Base Note Connector */}
                   <div className="flex items-start gap-[8px] pb-[8px] z-10">
-                    <span className="block h-[1px] bg-border w-[28px] mt-[10px] flex-shrink-0" />
+                    <span className="block h-[1px] bg-border w-[38px] mt-[10px] flex-shrink-0" />
                     <div>
                       <p className="text-[11px] font-bold text-gold uppercase tracking-wider mb-[1px]">Base Note</p>
                       <p className="text-[12px] font-medium leading-[1.2]">Vetiver, Cedar</p>
@@ -381,7 +381,7 @@ export function Hero() {
             </div>
 
             <hr className="divider my-[14px]" />
-            
+
             {/* Pyramid Metadata footer */}
             <div className="flex justify-between text-[12px] text-text-secondary flex-wrap gap-[6px]">
               <span className="flex items-center gap-[6px]">
@@ -416,7 +416,7 @@ export function Hero() {
             </div>
           </div>
           <div className="hero-step-divider flex-[0_0_auto] w-[60px] h-[1px] border-t-2 border-dashed border-gold mt-[23px] opacity-70" />
-          
+
           <div className="hero-step flex items-start gap-[16px] flex-1">
             <div className="hero-step-num w-[46px] h-[46px] rounded-full border border-border flex items-center justify-center text-[18px] text-gold heading-serif flex-shrink-0">02</div>
             <div>

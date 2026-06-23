@@ -1,15 +1,36 @@
 "use client";
 
-import Link from "next/link";
+import Image from "next/image";
 import { User, Sparkle, Leaf, Star, ShieldCheck, Minus } from "lucide-react";
 import { useComingSoon } from "@/components/coming-soon/coming-soon-provider";
 
 export function WhyUs() {
   const { openComingSoon } = useComingSoon();
   return (
-    <section id="why-us" className="py-[60px] lg:py-[90px] bg-bg">
+    <section id="why-us" className="relative overflow-hidden py-[60px] lg:py-[90px] bg-bg">
+      <div className="absolute inset-0 hidden lg:block z-0">
+        <Image
+          src="/assets/why-us-bg-desktop.png"
+          alt="Personalised perfume workspace with scent notes"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
+      <div className="absolute inset-0 block lg:hidden z-0">
+        <Image
+          src="/assets/why-us-bg-mobile.png"
+          alt="Perfume bottle with profile card and ingredients"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
+      {/* <div className="absolute inset-0 z-0 bg-[#151311]/74 lg:bg-[#151311]/68" />
+       */}
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_82%_86%,rgba(196,130,58,0.12),transparent_30%),linear-gradient(180deg,rgba(21,19,17,0.9)_0%,rgba(21,19,17,0.68)_46%,rgba(21,19,17,0.96)_100%)] lg:bg-[radial-gradient(circle_at_14%_72%,rgba(196,130,58,0.12),transparent_30%),radial-gradient(circle_at_88%_56%,rgba(196,130,58,0.10),transparent_28%),linear-gradient(90deg,rgba(21,19,17,0.9)_0%,rgba(21,19,17,0.74)_44%,rgba(21,19,17,0.88)_100%)]" />
       {/* Desktop Layout */}
-      <div className="container hidden lg:block">
+      <div className="container relative z-10 hidden lg:block">
         <div className="whyus-grid grid grid-cols-[0.85fr_1.15fr] gap-[56px] items-start mb-[60px]">
           {/* Left Text Column */}
           <div>
@@ -163,7 +184,7 @@ export function WhyUs() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="container block lg:hidden">
+      <div className="container relative z-10 block lg:hidden">
         <div className="mobile-why-extra">
           <div className="mwhy-head text-center mb-[26px]">
             <p className="eyebrow mb-[10px]">The Crafted Difference</p>

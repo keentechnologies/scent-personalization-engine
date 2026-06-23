@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, MessageSquare, Plus, Minus } from "lucide-react";
 import { useComingSoon } from "@/components/coming-soon/coming-soon-provider";
@@ -100,9 +101,29 @@ export function Faq() {
   };
 
   return (
-    <section id="faq" className="py-[60px] lg:py-[90px] bg-bg-alt">
+    <section id="faq" className="relative overflow-hidden py-[60px] lg:py-[90px] bg-bg-alt">
+      <div className="absolute inset-0 hidden lg:block z-0">
+        <Image
+          src="/assets/faq-bg-desktop.png"
+          alt="Perfume consultation desk with scent blotters"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
+      <div className="absolute inset-0 block lg:hidden z-0">
+        <Image
+          src="/assets/faq-bg-mobile.png"
+          alt="Perfume bottle with consultation cards"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
+      {/* <div className="absolute inset-0 z-0 bg-[#1d1a17]/76 lg:bg-[#1d1a17]/72" /> */}
+      <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_20%_88%,rgba(196,130,58,0.10),transparent_30%),linear-gradient(180deg,rgba(21,19,17,0.9)_0%,rgba(29,26,23,0.72)_44%,rgba(21,19,17,0.96)_100%)] lg:bg-[radial-gradient(circle_at_12%_72%,rgba(196,130,58,0.12),transparent_30%),radial-gradient(circle_at_92%_30%,rgba(196,130,58,0.08),transparent_28%),linear-gradient(90deg,rgba(21,19,17,0.86)_0%,rgba(21,19,17,0.72)_42%,rgba(21,19,17,0.92)_100%)]" />
       {/* Desktop Layout */}
-      <div className="container hidden lg:grid grid-cols-[0.8fr_1.2fr] gap-[56px]">
+      <div className="container relative z-10 hidden lg:grid grid-cols-[0.8fr_1.2fr] gap-[56px]">
         {/* Left column info & Testimonials */}
         <div>
           <p className="eyebrow mb-[18px]">Questions People Usually Ask</p>
@@ -184,7 +205,7 @@ export function Faq() {
       </div>
 
       {/* Desktop Bottom CTA Banner */}
-      <div className="container faq-cta mt-[64px] hidden lg:block">
+      <div className="container relative z-10 faq-cta mt-[64px] hidden lg:block">
         <div className="card mini-cta-card relative grid grid-cols-[1fr_auto] items-center gap-[32px] p-[36px_44px] min-h-[200px] overflow-hidden rounded-[16px] bg-bg-alt">
           <div className="absolute inset-0 bg-[url('/assets/mini-cta-bg.png')] bg-right bg-cover bg-no-repeat z-0" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#151311]/92 via-[#151311]/72 to-transparent z-1" />
@@ -205,7 +226,7 @@ export function Faq() {
       </div>
 
       {/* Mobile Layout */}
-      <div className="container block lg:hidden">
+      <div className="container relative z-10 block lg:hidden">
         <div className="mobile-faq-extra">
           {/* Header */}
           <div className="mfaq-head text-center mb-[26px]">
