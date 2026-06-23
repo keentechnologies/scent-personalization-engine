@@ -24,7 +24,7 @@ import { useComingSoon } from "@/components/coming-soon/coming-soon-provider";
 export function Hero() {
   const { openComingSoon } = useComingSoon();
   return (
-    <section id="hero" className="relative overflow-hidden min-h-[100vh] lg:min-h-0 py-[36px] lg:py-[72px] lg:pb-[90px] flex flex-col justify-center">
+    <section id="hero" className="relative overflow-hidden min-h-[100vh] lg:min-h-0 pt-[110px] pb-[36px] lg:py-[72px] lg:pb-[90px] flex flex-col justify-center">
       {/* Background Images */}
       {/* Desktop Background */}
       <div className="absolute inset-0 hidden lg:block z-0">
@@ -52,7 +52,7 @@ export function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-[#151311]/40 via-[#151311]/45 to-[#151311]/98 lg:bg-gradient-to-r lg:from-[#151311]/94 lg:via-[#151311]/50 lg:to-[#151311]/80 z-1" />
 
       {/* Hero Content Grid */}
-      <div className="container relative z-10 hero-grid grid grid-cols-1 lg:grid-cols-[0.85fr_1.2fr] gap-[30px] lg:gap-[60px] items-center w-full max-w-[1500px]">
+      <div className="lg:my-[6rem] container z-10 hero-grid grid grid-cols-1 lg:grid-cols-[0.85fr_1.2fr] gap-[30px] lg:gap-[60px] items-center w-full max-w-[1500px]">
         {/* Left Side Info */}
         <div className="pt-[28px] lg:pt-0">
           <p className="eyebrow mb-[18px]">

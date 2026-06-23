@@ -14,11 +14,11 @@ export function Header() {
 
   return (
     <header
-      className="sticky top-0 z-50 border-b border-border bg-[#151311] pt-[env(safe-area-inset-top)] lg:bg-[#151311]/85 lg:backdrop-blur-md"
+      className="fixed left-0 right-0 w-[90%] mx-auto top-2 z-50 border-b border-border bg-[#151311]/85 backdrop-blur-md pt-[env(safe-area-inset-top)] rounded-4xl "
       style={{ transform: "translate3d(0,0,0)", willChange: "transform" }}
     >
-      <div className="pointer-events-none fixed left-0 right-0 top-0 z-40 h-[env(safe-area-inset-top)] bg-[#151311] lg:hidden" />
-      <div className="container header-inner flex h-[64px] items-center justify-between lg:h-[78px]">
+      <div className="pointer-events-none fixed left-0 right-0 top-0 z-40 h-[env(safe-area-inset-top)] bg-transparent lg:hidden" />
+      <div className="container header-inner relative flex h-[64px] items-center justify-between lg:h-[78px]">
         {/* Logo */}
         <Link href="#top" className="logo-wrap flex items-center gap-[10px]">
           <Image
@@ -35,7 +35,7 @@ export function Header() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex gap-[36px] text-[14px] text-text-secondary">
+        <nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 gap-[36px] text-[14px] text-text-secondary">
           <Link href="#why-us" className="hover:text-gold transition-colors">
             Why Us
           </Link>
