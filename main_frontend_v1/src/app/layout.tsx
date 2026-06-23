@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { cormorant, inter } from "@/lib/fonts";
 import { Header } from "@/components/layout/header";
@@ -8,6 +8,15 @@ import { ComingSoonProvider } from "@/components/coming-soon/coming-soon-provide
 export const metadata: Metadata = {
   title: "Crafted Sprays — Personalised Fragrance",
   description: "Take a 5-minute discovery to get a fragrance crafted around your personality, preferences and lifestyle. Delivered to your doorstep.",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black",
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#151311",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({

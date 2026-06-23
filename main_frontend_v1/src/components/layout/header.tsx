@@ -14,9 +14,10 @@ export function Header() {
 
   return (
     <header
-      className="sticky top-0 z-50 border-b border-border bg-[#151311] lg:bg-[#151311]/85 lg:backdrop-blur-md pt-[env(safe-area-inset-top)]"
+      className="sticky top-0 z-50 border-b border-border bg-[#151311] pt-[env(safe-area-inset-top)] lg:bg-[#151311]/85 lg:backdrop-blur-md"
       style={{ transform: "translate3d(0,0,0)", willChange: "transform" }}
     >
+      <div className="pointer-events-none fixed left-0 right-0 top-0 z-40 h-[env(safe-area-inset-top)] bg-[#151311] lg:hidden" />
       <div className="container header-inner flex h-[64px] items-center justify-between lg:h-[78px]">
         {/* Logo */}
         <Link href="#top" className="logo-wrap flex items-center gap-[10px]">
