@@ -734,13 +734,26 @@ export function HowItWorks() {
                     </p>
                   </div>
                   <div className="mhiw-visual flex-[1.18] min-w-0">
-                    <div className="mhiw-box-img rounded-[8px] overflow-hidden relative h-[64px] w-full">
-                      <Image
-                        src="/assets/bottle-in-box.png"
-                        alt="Delivered product"
-                        fill
-                        className="object-cover"
-                      />
+                    <div className="mhiw-profile-card border border-border rounded-[12px] p-[10px] bg-white/[0.02]">
+                      <div className="mhiw-profile-head flex justify-between items-center mb-[8px] gap-[6px]">
+                        <p className="mhiw-profile-title text-[10.5px] text-gold font-semibold">Delivery</p>
+                        <div className="mhiw-profile-avatar w-[24px] h-[24px] rounded-full border border-border flex items-center justify-center text-text-primary">
+                          <Truck className="w-[12px] h-[12px]" />
+                        </div>
+                      </div>
+                      <div className="flex flex-col gap-[5px] py-[2px]">
+                        <div className="flex items-center justify-between text-[9px] text-text-secondary">
+                          <span>Status:</span>
+                          <span className="text-gold font-semibold">On the Way</span>
+                        </div>
+                        <div className="flex items-center justify-between text-[9px] text-text-secondary">
+                          <span>Estimated:</span>
+                          <span className="text-text-primary font-medium">4 Days</span>
+                        </div>
+                        <div className="w-full h-[4px] bg-border rounded-[2px] overflow-hidden mt-[4px]">
+                          <div className="h-full bg-gold" style={{ width: "75%" }} />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

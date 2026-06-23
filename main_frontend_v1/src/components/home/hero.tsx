@@ -115,7 +115,7 @@ export function Hero() {
 
           {/* Mobile Only Extra Content */}
           <div className="mobile-hero-extra block lg:hidden mt-[8px]">
-            <button onClick={openComingSoon} className="btn-gold mobile-cta-btn w-full justify-center mb-[28px]">
+            <button onClick={openComingSoon} className="btn-gold mobile-cta-btn w-full justify-center mb-[28px] ">
               Start Discovery
               <ArrowRight className="icon w-[19px] h-[19px]" />
             </button>
