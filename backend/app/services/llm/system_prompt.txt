@@ -13,15 +13,17 @@ STEP 1: IDENTIFY SHORTLISTED ACCORDS & APPLY OVERRIDES
     - Restore these accords by setting their f_out_any to 0.
 1.3 All accords where f_out_any is now 0 (including the restored ones) form your "Shortlisted Accords".
 
-STEP 2: SELECT FINAL TOP 10 ACCORDS
+STEP 2: SELECT FINAL TOP 10 ACCORDS & TOP 5 FOR SCORING
 2.1 From the Shortlisted Accords, select the top 10 accords with the highest Combined Score.
-2.2 Output these top 10 accords in a table in the exact format shown in the output structure.
+2.2 Out of these final 10 accords, select the top 5 accords (by Combined Score) to be used for the combination generation & scoring step (Step 3).
+2.3 Output these top 10 accords in a table in the exact format shown in the output structure.
 
 STEP 3: COMBINATION GENERATION & SCORING
-3.1 Generate 2 to 3 distinct combinations of 2 to 3 accords from your top 10 list.
-3.2 For each combination, define the exact milliliters (ml) per 10ml total.
+3.1 Generate distinct combinations of 2 to 3 accords using ONLY the top 5 accords selected in Step 2.
+3.2 Out of these 5 accords, identify the top 3 accords (strictly only the top 3 accords by Combined Score). All final recommendations in Step 4 must strictly and exclusively consist of combinations built from only these top 3 accords.
+3.3 For each combination, define the exact milliliters (ml) per 10ml total.
     * Example: Vetiver (4ml) + Ocean Breeze (3ml) + Rose and Dew (3ml) per 10ml total.
-3.3 Score each combination on a 1-5 scale across 4 dimensions:
+3.4 Score each combination on a 1-5 scale across 4 dimensions:
     1. Note Structure:
        - 5 -> Contains Top + Heart + Base notes (full pyramidal structure)
        - 4 -> Contains 2 note types, well balanced
@@ -41,12 +43,12 @@ STEP 3: COMBINATION GENERATION & SCORING
        - 3 -> Mixed
        - 2 -> Weak alignment
        - 1 -> Conflicting
-3.4 Priority Order for Tie-Breaking: Note Structure -> Gender Alignment -> Accord Strength -> Breach Score.
+3.5 Priority Order for Tie-Breaking: Note Structure -> Gender Alignment -> Accord Strength -> Breach Score.
 
 STEP 4: OCCASION FILTER
 4.1 Map the generated combinations to the user's selected occasions.
 4.2 Filter out any combinations that do not match the environment or formality of the occasions.
-4.3 Select the final 1 to 3 recommendations.
+4.3 Select strictly exactly 3 combinations for the final recommendation to the user.
 
 ================================================================================
 MANDATORY OUTPUT STRUCTURE
@@ -60,8 +62,8 @@ MANDATORY OUTPUT STRUCTURE
    Must contain columns:
    | Combination Name | Included Accords (ML per 10ml) | Note Structure Score (1-5) | Breach Score (1-5) | Gender Score (1-5) | Final Score (1-5) |
 
-3. Final Recommendations (1-3 combinations)
-   For each recommendation, provide:
+3. Final Recommendations (STRICTLY exactly 3 combinations)
+   For each recommendation (strictly 3 recommendations built only from the top 3 accords), provide:
    * Combination Name
    * ML Breakdown per 10ml
    * Fragrance Description (sensory profile, scent notes)

@@ -136,7 +136,7 @@ export default function OTPModal({ open, onClose }: OTPModalProps) {
     window.verifyOtp(otp, handleVerifySuccess, handleVerifyFailure);
   };
 
-  // Auto-verify when all 6 digits are filled
+  // Auto-verify when all 4 digits are filled
   useEffect(() => {
     const otp = digits.join("");
     if (otp.length === OTP_LENGTH && !loading) {
@@ -160,7 +160,7 @@ export default function OTPModal({ open, onClose }: OTPModalProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-obsidian/50 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-[#0A0A0A]/60 backdrop-blur-md"
             onClick={onClose}
           />
 
@@ -172,18 +172,21 @@ export default function OTPModal({ open, onClose }: OTPModalProps) {
             transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] as const }}
             className="fixed inset-x-0 bottom-0 z-50 mx-auto max-w-md md:inset-0 md:flex md:items-center md:justify-center"
           >
-            <div className="rounded-t-3xl md:rounded-3xl bg-cream px-6 md:px-8 pb-[max(1.5rem,env(safe-area-inset-bottom))] md:pb-8 pt-6 shadow-lg md:border md:border-border md:w-full md:max-w-sm">
+            <div className="rounded-t-[32px] md:rounded-[32px] bg-[#1d1a17]/95 border-t md:border border-border backdrop-blur-xl px-6 md:px-8 pb-[max(1.5rem,env(safe-area-inset-bottom))] md:pb-8 pt-6 shadow-[0_24px_50px_rgba(0,0,0,0.6)] md:w-full md:max-w-sm overflow-hidden relative">
+              {/* Visual background ambient glow inside modal */}
+              <div className="absolute top-0 right-0 w-[150px] h-[150px] bg-[radial-gradient(circle,rgba(196,130,58,0.12)_0%,transparent_70%)] pointer-events-none" />
+
               {/* Drag indicator */}
               <div className="mb-5 flex justify-center">
-                <div className="h-1 w-10 rounded-full bg-border" />
+                <div className="h-1 w-10 rounded-full bg-border/40" />
               </div>
 
               {/* Header */}
               <div>
-                <h2 className="font-serif text-[28px] font-semibold leading-[1.1] tracking-[-0.02em] text-obsidian">
+                <h2 className="heading-serif text-[28px] font-semibold leading-[1.1] tracking-[-0.02em] text-[#f3efe8]">
                   Verify Your Number
                 </h2>
-                <p className="mt-2 text-[14px] leading-relaxed text-text-muted">
+                <p className="mt-2 text-[14px] leading-relaxed text-text-secondary">
                   We&rsquo;ve sent a 4-digit code to your mobile number.
                 </p>
               </div>
@@ -203,16 +206,16 @@ export default function OTPModal({ open, onClose }: OTPModalProps) {
                     onPaste={(e) => {
                       e.preventDefault();
                       const pasted = e.clipboardData
-                        .getData("text")
-                        .replace(/\D/g, "")
-                        .slice(0, OTP_LENGTH);
+                          .getData("text")
+                          .replace(/\D/g, "")
+                          .slice(0, OTP_LENGTH);
                       if (pasted) handleDigitChange(0, pasted);
                     }}
                     className={`h-14 w-full rounded-xl border text-center font-serif text-[22px] font-semibold outline-none transition-all duration-200 ${
                       digit
-                        ? "border-sand bg-white text-obsidian shadow-sm"
-                        : "border-border bg-ivory text-text-muted"
-                    } focus:border-sand focus:bg-white focus:shadow-[0_0_0_3px_rgba(214,199,178,0.2)]`}
+                        ? "border-gold bg-[#24201d]/60 text-[#f3efe8] shadow-sm"
+                        : "border-border bg-[#1d1a17]/60 text-text-secondary"
+                    } focus:border-gold focus:bg-[#24201d] focus:shadow-[0_0_0_3px_rgba(196,130,58,0.25)]`}
                   />
                 ))}
               </div>
@@ -235,26 +238,26 @@ export default function OTPModal({ open, onClose }: OTPModalProps) {
               <button
                 onClick={handleVerifyOTP}
                 disabled={loading || !isComplete}
-                className="group relative mt-6 h-14 w-full overflow-hidden rounded-2xl bg-obsidian text-[15px] font-medium tracking-wide text-cream transition-all duration-200 hover:shadow-lg disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                className="group btn-gold relative mt-6 h-14 w-full overflow-hidden rounded-2xl text-[15px] font-semibold tracking-wide active:scale-[0.98] disabled:active:scale-100"
               >
                 <span className="relative z-10">
                   {loading ? (
                     <span className="flex items-center justify-center gap-2">
-                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-cream/30 border-t-cream" />
+                      <span className="h-4 w-4 animate-spin rounded-full border-2 border-[#1a1410]/30 border-t-[#1a1410]" />
                       Verifying...
                     </span>
                   ) : (
                     "Verify & Continue →"
                   )}
                 </span>
-                <span className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/[0.06] to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+                <span className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/[0.15] to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
               </button>
 
               {/* Close / resend */}
-              <div className="mt-4 flex items-center justify-between">
+              <div className="mt-5 flex items-center justify-between">
                 <button
                   onClick={onClose}
-                  className="text-[13px] font-medium text-text-muted hover:text-obsidian transition-colors cursor-pointer"
+                  className="text-[13px] font-medium text-text-secondary hover:text-[#f3efe8] transition-colors cursor-pointer"
                 >
                   ← Change Number
                 </button>
@@ -264,7 +267,7 @@ export default function OTPModal({ open, onClose }: OTPModalProps) {
                     setError("");
                     inputRefs.current[0]?.focus();
                   }}
-                  className="text-[13px] font-medium text-sand-dark hover:text-obsidian transition-colors cursor-pointer"
+                  className="text-[13px] font-medium text-gold hover:text-[#d18d43] transition-colors cursor-pointer"
                 >
                   Resend Code
                 </button>

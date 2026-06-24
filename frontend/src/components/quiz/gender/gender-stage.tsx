@@ -1,16 +1,11 @@
-
-
 "use client";
 
 import { useEffect, useState } from "react";
-
 import { useRouter } from "next/navigation";
-
 import {
   submitGenderStage,
   getGenderStage,
 } from "@/services/api/gender";
-
 import GenderConfirmationModal from "./gender-confirmation-modal";
 
 const questions = [
@@ -18,12 +13,10 @@ const questions = [
     key: "masculine_score",
     question: "Masculine preference",
   },
-
   {
     key: "feminine_score",
     question: "Feminine preference",
   },
-
   {
     key: "unisex_score",
     question: "Unisex preference",
@@ -35,12 +28,10 @@ const options = [
     label: "Yes",
     value: 1,
   },
-
   {
     label: "I do not mind",
     value: 0.5,
   },
-
   {
     label: "No",
     value: 0,
@@ -49,35 +40,23 @@ const options = [
 
 type GenderState = {
   masculine_score: number;
-
   feminine_score: number;
-
   unisex_score: number;
 };
 
 export default function GenderStage() {
   const router = useRouter();
-
   const [loading, setLoading] = useState(false);
-
-  const [showConfirmationModal, setShowConfirmationModal] =
-    useState(false);
-
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
   const [answers, setAnswers] = useState<GenderState>({
     masculine_score: 0.5,
-
     feminine_score: 0.5,
-
     unisex_score: 0.5,
   });
 
-  const handleSelect = (
-    key: keyof GenderState,
-    value: number,
-  ) => {
+  const handleSelect = (key: keyof GenderState, value: number) => {
     setAnswers((prev) => ({
       ...prev,
-
       [key]: value,
     }));
   };
@@ -90,9 +69,7 @@ export default function GenderStage() {
   const submitGender = async () => {
     try {
       setLoading(true);
-
-      const sessionId =
-        localStorage.getItem("session_id");
+      const sessionId = localStorage.getItem("session_id");
 
       if (!sessionId) {
         throw new Error("Session not found");
@@ -100,44 +77,24 @@ export default function GenderStage() {
 
       const payload = {
         session_id: sessionId,
-
-        masculine_score:
-          answers.masculine_score,
-
-        feminine_score:
-          answers.feminine_score,
-
-        unisex_score:
-          answers.unisex_score,
+        masculine_score: answers.masculine_score,
+        feminine_score: answers.feminine_score,
+        unisex_score: answers.unisex_score,
       };
 
-      const response =
-        await submitGenderStage(payload);
-
-      console.log(
-        "GENDER STAGE SUBMITTED",
-        response,
-      );
-
+      const response = await submitGenderStage(payload);
+      console.log("GENDER STAGE SUBMITTED", response);
       router.push("/quiz/perception");
-
     } catch (error) {
-
-      console.log(
-        "FAILED TO SUBMIT GENDER",
-        error,
-      );
-
+      console.log("FAILED TO SUBMIT GENDER", error);
     } finally {
       setLoading(false);
     }
   };
 
   const handleSubmit = async () => {
-
     if (shouldShowConfirmation) {
       setShowConfirmationModal(true);
-
       return;
     }
 
@@ -146,7 +103,6 @@ export default function GenderStage() {
 
   const handleConfirmationContinue = async () => {
     setShowConfirmationModal(false);
-
     await submitGender();
   };
 
@@ -155,43 +111,23 @@ export default function GenderStage() {
   };
 
   useEffect(() => {
-
     const fetchGenderStage = async () => {
       try {
-
-        const sessionId =
-          localStorage.getItem("session_id");
-
+        const sessionId = localStorage.getItem("session_id");
         if (!sessionId) {
           return;
         }
 
-        const response =
-          await getGenderStage(sessionId);
-
-        console.log(
-          "GENDER RESTORE",
-          response,
-        );
+        const response = await getGenderStage(sessionId);
+        console.log("GENDER RESTORE", response);
 
         setAnswers({
-          masculine_score:
-            response.masculine_score,
-
-          feminine_score:
-            response.feminine_score,
-
-          unisex_score:
-            response.unisex_score,
+          masculine_score: response.masculine_score,
+          feminine_score: response.feminine_score,
+          unisex_score: response.unisex_score,
         });
-
       } catch (error) {
-
-        console.log(
-          "NO EXISTING GENDER DATA",
-          error,
-        );
-
+        console.log("NO EXISTING GENDER DATA", error);
       }
     };
 
@@ -200,7 +136,6 @@ export default function GenderStage() {
 
   return (
     <>
-
       <GenderConfirmationModal
         isOpen={showConfirmationModal}
         onConfirm={handleConfirmationContinue}
@@ -210,10 +145,10 @@ export default function GenderStage() {
       <div className="flex-1 flex flex-col px-6 py-6 md:py-8 bg-transparent">
         {/* ── Heading ── */}
         <div className="space-y-2">
-          <h1 className="font-serif text-[32px] font-semibold leading-[1.15] tracking-[-0.02em] text-obsidian">
+          <h1 className="heading-serif text-[32px] font-semibold leading-[1.15] tracking-[-0.02em] text-[#f3efe8]">
             Gender Preference
           </h1>
-          <p className="text-[14px] text-text-muted leading-relaxed">
+          <p className="text-[14px] text-text-secondary leading-relaxed">
             Select your fragrance direction preferences.
           </p>
         </div>
@@ -222,25 +157,18 @@ export default function GenderStage() {
         <div className="mt-8 space-y-6 flex-1">
           {questions.map((item) => (
             <div key={item.key} className="space-y-2.5">
-              <p className="text-[15px] font-medium text-obsidian">
-                {item.question}
-              </p>
+              <p className="text-[15px] font-medium text-[#f3efe8]">{item.question}</p>
 
               <div className="grid grid-cols-3 gap-3">
                 {options.map((option) => (
                   <button
                     key={option.label}
                     type="button"
-                    onClick={() =>
-                      handleSelect(
-                        item.key as keyof GenderState,
-                        option.value,
-                      )
-                    }
-                    className={`h-[52px] rounded-2xl border-2 text-[14px] font-semibold transition-all duration-200 cursor-pointer active:scale-[0.98] ${
+                    onClick={() => handleSelect(item.key as keyof GenderState, option.value)}
+                    className={`h-[52px] rounded-2xl border text-[14px] font-semibold transition-all duration-250 cursor-pointer active:scale-[0.98] ${
                       answers[item.key as keyof GenderState] === option.value
-                        ? "border-obsidian bg-obsidian text-cream"
-                        : "border-border bg-white text-obsidian md:hover:bg-ivory/50 md:hover:border-border-strong"
+                        ? "border-gold bg-[#c4823a] text-[#1a1410] shadow-[0_4px_20px_rgba(196,130,58,0.2)]"
+                        : "border-border bg-[#1d1a17]/50 text-text-secondary hover:border-gold/60 hover:bg-[#24201d]/60"
                     }`}
                   >
                     {option.label}
@@ -256,24 +184,23 @@ export default function GenderStage() {
           <button
             onClick={handleSubmit}
             disabled={loading}
-            className="group relative flex h-[52px] w-full items-center justify-center overflow-hidden rounded-2xl bg-obsidian text-[15px] font-semibold tracking-wide text-cream transition-all duration-200 active:scale-[0.98] disabled:opacity-35 disabled:active:scale-100 cursor-pointer md:hover:shadow-lg md:hover:-translate-y-[1px]"
+            className="group btn-gold relative h-[52px] w-full overflow-hidden rounded-2xl text-[15px] font-semibold tracking-wide active:scale-[0.98] disabled:active:scale-100"
           >
             <span className="relative z-10">
               {loading ? "Submitting..." : "Continue"}
             </span>
-            <span className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/[0.06] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+            <span className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/[0.15] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
           </button>
 
           <button
             type="button"
             onClick={() => router.push("/quiz/sensitivity")}
-            className="mt-3 flex h-[52px] w-full items-center justify-center rounded-2xl border-2 border-obsidian bg-transparent text-[15px] font-semibold tracking-wide text-obsidian transition-all duration-200 active:scale-[0.98] cursor-pointer md:hover:bg-obsidian/5"
+            className="btn-outline mt-3 h-[52px] w-full rounded-2xl text-[15px] font-semibold tracking-wide"
           >
             Back
           </button>
         </div>
       </div>
-
     </>
   );
 }

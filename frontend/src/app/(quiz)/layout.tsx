@@ -10,7 +10,7 @@ export default function QuizLayout({
   return (
     <QuizRouteGuard>
       <AppShell>
-        <div className="flex flex-col min-h-[100dvh] md:min-h-[600px] bg-cream">
+        <div className="flex flex-col min-h-[100dvh] md:min-h-[600px] bg-transparent">
           <BrandHeader />
           <div className="flex-1 flex flex-col">
             {children}

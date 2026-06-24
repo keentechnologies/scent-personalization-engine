@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import OTPModal from "./otp-modal";
 
@@ -102,19 +103,24 @@ export default function LoginForm() {
 
   return (
     <>
-      <main className="flex min-h-[100dvh] md:min-h-[600px] flex-col px-6 md:px-8 bg-cream">
+      <main className="flex min-h-[100dvh] md:min-h-[710px] flex-col px-6 md:px-8 bg-transparent">
 
         {/* ── Top: Brand ── */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.4 }}
-          className="flex items-center gap-2.5 pt-[max(1rem,env(safe-area-inset-top))] mt-4 md:mt-6"
+          className="flex items-center gap-2 pt-[max(1.25rem,env(safe-area-inset-top))] mt-4 md:mt-6"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-obsidian">
-            <span className="font-serif text-[13px] font-semibold text-sand">C</span>
-          </span>
-          <span className="font-serif text-[17px] font-semibold tracking-tight text-obsidian">
+          <Image
+            src="/assets/logo.png"
+            alt="Crafted Sprays Logo"
+            width={40}
+            height={40}
+            className="h-10 w-auto"
+            priority
+          />
+          <span className="heading-serif text-[19px] tracking-[.03em] text-[#f3efe8] font-semibold">
             Crafted Sprays
           </span>
         </motion.div>
@@ -129,7 +135,7 @@ export default function LoginForm() {
           {/* Eyebrow */}
           <motion.p
             variants={itemVariants}
-            className="text-[11px] font-semibold uppercase tracking-[0.14em] text-text-muted"
+            className="text-[11px] font-semibold uppercase tracking-[0.18em] text-gold"
           >
             Begin Your Discovery
           </motion.p>
@@ -137,7 +143,7 @@ export default function LoginForm() {
           {/* Heading */}
           <motion.h1
             variants={itemVariants}
-            className="font-serif text-[36px] md:text-[40px] font-semibold leading-[1.05] tracking-[-0.03em] text-obsidian mt-3"
+            className="heading-serif text-[36px] md:text-[40px] leading-[1.1] tracking-[-0.02em] text-[#f3efe8] mt-3"
           >
             Let&rsquo;s Start
             <br />
@@ -147,7 +153,7 @@ export default function LoginForm() {
           {/* Description */}
           <motion.p
             variants={itemVariants}
-            className="mt-4 text-[15px] leading-[1.6] text-text-muted max-w-[340px]"
+            className="mt-4 text-[15px] leading-[1.6] text-text-secondary max-w-[340px]"
           >
             Enter your mobile number to begin your personalised fragrance discovery.
           </motion.p>
@@ -156,15 +162,15 @@ export default function LoginForm() {
           <motion.div variants={itemVariants} className="mt-8">
             <label
               htmlFor="phone-input"
-              className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-text-muted mb-2"
+              className="block text-[11px] font-semibold uppercase tracking-[0.12em] text-text-secondary mb-2"
             >
               Mobile Number
             </label>
 
-            <div className="flex items-center gap-0 rounded-2xl border-2 border-border bg-white overflow-hidden transition-all duration-200 focus-within:border-sand focus-within:shadow-[0_0_0_4px_rgba(214,199,178,0.15)]">
+            <div className="flex items-center gap-0 rounded-2xl border border-border bg-[#1d1a17]/60 backdrop-blur-md overflow-hidden transition-all duration-300 focus-within:border-gold focus-within:shadow-[0_0_0_4px_rgba(196,130,58,0.15)]">
               {/* Country code */}
-              <div className="flex items-center justify-center bg-ivory px-4 h-[52px] border-r border-border shrink-0">
-                <span className="text-[14px] font-semibold text-obsidian select-none">+91</span>
+              <div className="flex items-center justify-center bg-[#24201d]/50 px-4 h-[52px] border-r border-border shrink-0">
+                <span className="text-[14px] font-semibold text-[#f3efe8] select-none">+91</span>
               </div>
 
               {/* Input */}
@@ -176,7 +182,7 @@ export default function LoginForm() {
                 placeholder="98765 43210"
                 value={formatPhone(phone)}
                 onChange={handlePhoneChange}
-                className="h-[52px] flex-1 px-4 text-[17px] font-medium text-obsidian bg-transparent outline-none placeholder:text-text-muted/30"
+                className="h-[52px] flex-1 px-4 text-[17px] font-medium text-[#f3efe8] bg-transparent outline-none placeholder:text-text-secondary/30"
               />
             </div>
 
@@ -189,23 +195,23 @@ export default function LoginForm() {
             <button
               onClick={handleContinue}
               disabled={isDisabled}
-              className="group relative flex h-[52px] w-full items-center justify-center overflow-hidden rounded-2xl bg-obsidian text-[15px] font-semibold tracking-wide text-cream transition-all duration-200 active:scale-[0.98] disabled:opacity-35 disabled:active:scale-100 cursor-pointer md:hover:shadow-lg md:hover:-translate-y-[1px]"
+              className="group btn-gold w-full h-[52px] rounded-2xl text-[15px] font-semibold tracking-wide relative overflow-hidden active:scale-[0.98] disabled:active:scale-100"
             >
-              <span className="relative z-10">
+              <span className="relative z-10 flex items-center justify-center gap-1.5">
                 {!msgReady
                   ? "Preparing..."
                   : isSending
                     ? "Sending OTP..."
                     : "Continue →"}
               </span>
-              <span className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/[0.06] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+              <span className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/[0.15] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
             </button>
           </motion.div>
 
           {/* Helper text */}
           <motion.p
             variants={itemVariants}
-            className="mt-4 text-center text-[12px] text-text-muted/60"
+            className="mt-4 text-center text-[12px] text-text-secondary/50"
           >
             We&rsquo;ll send you a one-time verification code
           </motion.p>
@@ -219,12 +225,12 @@ export default function LoginForm() {
           className="pb-[max(1.25rem,env(safe-area-inset-bottom))] md:pb-6"
         >
           <div className="flex items-center gap-3 mb-4">
-            <div className="h-px flex-1 bg-border" />
-            <span className="text-sand text-sm">✦</span>
-            <div className="h-px flex-1 bg-border" />
+            <div className="h-px flex-1 bg-border/40" />
+            <span className="text-gold text-sm">✦</span>
+            <div className="h-px flex-1 bg-border/40" />
           </div>
 
-          <p className="text-center text-[12px] leading-[1.7] text-text-muted/70">
+          <p className="text-center text-[12px] leading-[1.7] text-text-secondary/60">
             A few thoughtful questions.
             <br />
             A fragrance crafted around you.
