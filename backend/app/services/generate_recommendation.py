@@ -39,7 +39,7 @@ def generate_recommendation(
         }
 
 
-    # STEP 1 -> calculate climate profile and save the same into db
+    # STEP 1 -> calculate climate profile and save into db
     try:
         climate_result = ClimateScoreService(
             db=db,
@@ -70,8 +70,9 @@ def generate_recommendation(
             "message": str(error),
         }
 
-    # STEP 3
-    # LLM recommendation generation
+    # STEP 3 -> LLM recommendation generation
+    # Result is saved to final_user_recommendation table inside LLMRecommendationService
+    # pre_cart_items + cart_products are created later when user clicks "Go to Cart"
     try:
         recommendation_text = LLMRecommendationService(db).generate_recommendations(
             session_id=payload.session_id,
@@ -85,5 +86,5 @@ def generate_recommendation(
 
     return {
         "success": True,
-        "message": recommendation_text
+        "message": recommendation_text,
     }

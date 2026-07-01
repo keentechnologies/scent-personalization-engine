@@ -78,16 +78,16 @@ export default function ClimateStage() {
       };
 
       const response = await generateRecommendations(payload);
-      console.log("climate profile saved in db", response);
+      console.log("Recommendations generated successfully", response);
 
-      await new Promise((resolve) => setTimeout(resolve, 1000000));
-      // router.push("/results");
+      // Redirect to recommendation page after successful generation
+      router.push("/recommendation");
     } catch (error) {
       console.log("FAILED TO GENERATE RECOMMENDATIONS", error);
-    } finally {
       setProcessing(false);
     }
   };
+
 
   return (
     <>
