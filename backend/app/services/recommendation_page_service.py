@@ -1,15 +1,13 @@
 import json
-from datetime import datetime, timezone
 from uuid import UUID
 from typing import Optional
 
 from sqlalchemy.orm import Session
 
-from app.models.cart_product import CartProduct
 from app.models.pre_cart_item import PreCartItem
+from app.models.cart_activity_trace import CartActivityTrace
 from app.models.final_user_recommendation import FinalUserRecommendation
 from app.models.master_accord_table import MasterAccordTable
-from app.models.enums import PreCartStatus
 
 
 def _get_accord_name_map(db: Session) -> dict:
@@ -21,7 +19,6 @@ def _get_accord_name_map(db: Session) -> dict:
 def _parse_combinations_from_db(db: Session, session_id: UUID) -> tuple[list, str | None]:
     """
     Reads the LLM JSON from final_user_recommendation table for a session.
-    Returns (combinations list, error message or None).
     """
     rec_row = (
         db.query(FinalUserRecommendation)
@@ -42,17 +39,39 @@ def _parse_combinations_from_db(db: Session, session_id: UUID) -> tuple[list, st
         return [], f"Failed to parse recommendation data: {str(e)}"
 
 
+def _log_activity_trace(
+    db: Session,
+    user_id: UUID,
+    session_id: UUID,
+    action_type: str,
+    rank: int,
+    combo_name: str,
+    formula: list,
+    old_qty: Optional[int] = None,
+    new_qty: Optional[int] = None,
+):
+    """Inserts a single audit trace to cart_activity_traces."""
+    trace = CartActivityTrace(
+        user_id=user_id,
+        session_id=session_id,
+        action_type=action_type,
+        recommendation_rank=rank,
+        combo_name=combo_name,
+        formula_snapshot={"formula": formula},
+        old_quantity=old_qty,
+        new_quantity=new_qty,
+    )
+    db.add(trace)
+
+
 def get_recommendation_page_data(
     db: Session,
     session_id: UUID,
     user_id: UUID,
 ) -> dict:
     """
-    Fetches recommendation display data from final_user_recommendation table.
-    This is called on page load — no pre_cart_items needed yet.
-
-    Also checks if user has already made a selection (pre_cart_items exist)
-    so the page can restore previous state when user navigates back.
+    Fetches display data for the recommendation page.
+    Directly checks active items in pre_cart_items for selection/quantity state.
     """
     combinations, error = _parse_combinations_from_db(db, session_id)
     if error:
@@ -60,26 +79,18 @@ def get_recommendation_page_data(
 
     accord_name_map = _get_accord_name_map(db)
 
-    # Check if user has already confirmed a selection (for back-navigation restore)
-    existing_items = (
+    # Fetch all active pre_cart_items for this session/user
+    active_items = (
         db.query(PreCartItem)
         .filter(
             PreCartItem.session_id == session_id,
             PreCartItem.user_id == user_id,
-            PreCartItem.deleted_at.is_(None),
         )
         .all()
     )
-    # Map product_id → status for restoring previous selections
-    existing_status_map: dict = {}
-    existing_qty_map: dict = {}
-    if existing_items:
-        for item in existing_items:
-            cp = db.query(CartProduct).filter(CartProduct.id == item.product_id).first()
-            if cp:
-                # Use combo_name as key to match back to LLM combo
-                existing_status_map[item.recommendation_rank] = item.status.value
-                existing_qty_map[item.recommendation_rank] = cp.quantity
+
+    # Map rank -> cart details (quantity)
+    rank_selections = {item.recommendation_rank: item.quantity for item in active_items}
 
     formatted_combinations = []
     for rank, combo in enumerate(combinations, start=1):
@@ -95,16 +106,18 @@ def get_recommendation_page_data(
                 "volume_ml": vol,
             })
 
-        # Restore previous status if user has been here before, else default rank-1 selected
-        if existing_status_map:
-            status = existing_status_map.get(rank, "not_selected")
-        else:
+        is_in_cart = rank in rank_selections
+        
+        # When no active selections exist in DB (e.g. first view), rank 1 is pre-selected
+        if not rank_selections:
             status = "selected" if rank == 1 else "not_selected"
-
-        qty = existing_qty_map.get(rank, 1)
+            qty = 1
+        else:
+            status = "selected" if is_in_cart else "not_selected"
+            qty = rank_selections[rank] if is_in_cart else 1
 
         formatted_combinations.append({
-            "combo_id": combo.get("id", f"comb_{rank}"),   # e.g. "comb_1"
+            "combo_id": combo.get("id", f"comb_{rank}"),
             "recommendation_rank": rank,
             "is_default_selected": rank == 1,
             "status": status,
@@ -131,96 +144,121 @@ def confirm_cart_selection(
     qty_updates: Optional[dict] = None,
 ) -> dict:
     """
-    Called when user clicks 'Go to Cart'.
-    - Parses combos from final_user_recommendation
-    - Soft-deletes any previous pre_cart_items for this session
-    - Creates fresh cart_products + pre_cart_items for ALL 3 combos
-    - Marks status = SELECTED for chosen ones, NOT_SELECTED for others
+    Saves selection updates in a single table pre_cart_items.
+    Inserts on new selection, updates on qty change, and deletes on unselect.
+    Logs all edits in cart_activity_traces.
     """
     combinations, error = _parse_combinations_from_db(db, session_id)
     if error:
         return {"success": False, "message": error}
 
-    accord_name_map = _get_accord_name_map(db)
+    qty_updates = qty_updates or {}
+    selected_ids_str = [str(x) for x in selected_combo_ids]
 
-    # Soft-delete any previously saved pre_cart_items + cart_products for this session
+    # Fetch existing selections from pre_cart_items
     existing_items = (
         db.query(PreCartItem)
         .filter(
             PreCartItem.session_id == session_id,
             PreCartItem.user_id == user_id,
-            PreCartItem.deleted_at.is_(None),
         )
         .all()
     )
-    now = datetime.now(timezone.utc)
-    for item in existing_items:
-        item.deleted_at = now
-        cp = db.query(CartProduct).filter(
-            CartProduct.id == item.product_id,
-            CartProduct.deleted_at.is_(None),
-        ).first()
-        if cp:
-            cp.deleted_at = now
-    db.flush()
 
-    created_count = 0
+    # Map rank -> PreCartItem object
+    rank_item_map = {item.recommendation_rank: item for item in existing_items}
+
+    selected_count = 0
+
     for rank, combo in enumerate(combinations, start=1):
-        formula = combo.get("formula", [])
         combo_id = combo.get("id", f"comb_{rank}")
+        combo_name = combo.get("name", f"Combination {rank}")
+        formula = combo.get("formula", [])
 
-        accord_1_id = formula[0]["accord_id"] if len(formula) > 0 else None
-        accord_1_vol = float(formula[0]["qty"]) if len(formula) > 0 else None
-        accord_2_id = formula[1]["accord_id"] if len(formula) > 1 else None
-        accord_2_vol = float(formula[1]["qty"]) if len(formula) > 1 else None
-        accord_3_id = formula[2]["accord_id"] if len(formula) > 2 else None
-        accord_3_vol = float(formula[2]["qty"]) if len(formula) > 2 else None
+        is_selected = combo_id in selected_ids_str
+        target_qty = max(1, int(qty_updates.get(combo_id, 1)))
 
-        # Qty from user input, default 1
-        qty = 1
-        if qty_updates and combo_id in qty_updates:
-            qty = max(1, int(qty_updates[combo_id]))
+        existing_item = rank_item_map.get(rank)
 
-        # Create cart_product row
-        cart_product = CartProduct(
-            accord_1_id=accord_1_id,
-            accord_1_volume_ml=accord_1_vol,
-            accord_2_id=accord_2_id,
-            accord_2_volume_ml=accord_2_vol,
-            accord_3_id=accord_3_id,
-            accord_3_volume_ml=accord_3_vol,
-            quantity=qty,
-            combo_name=combo.get("name", f"Combination {rank}"),
-            description=combo.get("description", ""),
-            justification=combo.get("justification", ""),
-        )
-        db.add(cart_product)
-        db.flush()  # Generate cart_product.id via uuid7 default
-
-        # Determine status
-        is_selected = combo_id in selected_combo_ids
-        status = PreCartStatus.SELECTED if is_selected else PreCartStatus.NOT_SELECTED
         if is_selected:
-            created_count += 1
+            selected_count += 1
+            if not existing_item:
+                # ── Action: Select (Insert) ──
+                accord_1_id = formula[0]["accord_id"] if len(formula) > 0 else None
+                accord_1_vol = float(formula[0]["qty"]) if len(formula) > 0 else None
+                accord_2_id = formula[1]["accord_id"] if len(formula) > 1 else None
+                accord_2_vol = float(formula[1]["qty"]) if len(formula) > 1 else None
+                accord_3_id = formula[2]["accord_id"] if len(formula) > 2 else None
+                accord_3_vol = float(formula[2]["qty"]) if len(formula) > 2 else None
 
-        # Create pre_cart_item row
-        pre_cart_item = PreCartItem(
-            user_id=user_id,
-            session_id=session_id,
-            product_id=cart_product.id,
-            recommendation_rank=rank,
-            is_default_selected=(rank == 1),
-            status=status,
-        )
-        db.add(pre_cart_item)
+                pre_cart_item = PreCartItem(
+                    user_id=user_id,
+                    session_id=session_id,
+                    recommendation_rank=rank,
+                    is_default_selected=(rank == 1),
+                    accord_1_id=accord_1_id,
+                    accord_1_volume_ml=accord_1_vol,
+                    accord_2_id=accord_2_id,
+                    accord_2_volume_ml=accord_2_vol,
+                    accord_3_id=accord_3_id,
+                    accord_3_volume_ml=accord_3_vol,
+                    quantity=target_qty,
+                    combo_name=combo_name,
+                    description=combo.get("description", ""),
+                    justification=combo.get("justification", ""),
+                )
+                db.add(pre_cart_item)
+
+                _log_activity_trace(
+                    db=db,
+                    user_id=user_id,
+                    session_id=session_id,
+                    action_type="select",
+                    rank=rank,
+                    combo_name=combo_name,
+                    formula=formula,
+                    new_qty=target_qty,
+                )
+            else:
+                # ── Action: Potential Qty Change (Update) ──
+                if existing_item.quantity != target_qty:
+                    old_qty = existing_item.quantity
+                    existing_item.quantity = target_qty
+                    
+                    _log_activity_trace(
+                        db=db,
+                        user_id=user_id,
+                        session_id=session_id,
+                        action_type="qty_change",
+                        rank=rank,
+                        combo_name=combo_name,
+                        formula=formula,
+                        old_qty=old_qty,
+                        new_qty=target_qty,
+                    )
+        else:
+            # ── Action: Unselect / Remove (Delete) ──
+            if existing_item:
+                old_qty = existing_item.quantity
+                
+                # Delete directly from pre_cart_items (no secondary table cleanup needed!)
+                db.delete(existing_item)
+
+                _log_activity_trace(
+                    db=db,
+                    user_id=user_id,
+                    session_id=session_id,
+                    action_type="unselect",
+                    rank=rank,
+                    combo_name=combo_name,
+                    formula=formula,
+                    old_qty=old_qty,
+                )
 
     db.commit()
 
-    if created_count == 0:
-        return {"success": False, "message": "Please select at least one combination."}
-
     return {
         "success": True,
-        "message": "Selection saved. Proceed to cart.",
-        "selected_count": created_count,
+        "message": "Selection synced successfully.",
+        "selected_count": selected_count,
     }

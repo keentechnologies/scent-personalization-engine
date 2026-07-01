@@ -35,8 +35,10 @@ from app.models.master_climate_table import MasterClimateTable
 from app.models.master_climate_accord_mapping import MasterClimateAccordMapping
 from app.models.user_accord_score_table import UserAccordScoreTable
 from app.models.final_user_recommendation import FinalUserRecommendation
-from app.models.cart_product import CartProduct
 from app.models.pre_cart_item import PreCartItem
+from app.models.cart_activity_trace import CartActivityTrace
+from app.models.address import Address
+from app.models.user_address import UserAddress
 
 
 

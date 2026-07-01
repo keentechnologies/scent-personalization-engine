@@ -18,6 +18,7 @@ from app.api.routes.nimbus_test import router as nimbus_router
 from app.api.routes.pincode_free_delivery_check import router as pincode_router
 from app.api.routes.recommendation import router as recommendation_router
 from app.api.routes.recommendation_page import router as recommendation_page_router
+from app.api.routes.address import router as address_router
 
 app = FastAPI()
 
@@ -49,6 +50,7 @@ app.include_router(nimbus_router)
 app.include_router(pincode_router)
 app.include_router(recommendation_router)
 app.include_router(recommendation_page_router)
+app.include_router(address_router)
 
 app.mount(
     "/static",
