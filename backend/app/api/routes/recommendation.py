@@ -1,3 +1,4 @@
+import json
 from fastapi import (
     APIRouter,
     Depends,
@@ -47,5 +48,12 @@ def generate_recommendation_route(
             status_code=400,
             detail=result["message"]
         )
+
+    # Try to parse the LLM response as JSON if it is a string
+    try:
+        if isinstance(result["message"], str):
+            result["message"] = json.loads(result["message"])
+    except (json.JSONDecodeError, TypeError):
+        pass
 
     return result

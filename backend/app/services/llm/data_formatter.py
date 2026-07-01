@@ -60,12 +60,12 @@ class DataFormatter:
 
         # Format markdown table
         markdown_table = (
-            "| Accord Name | Note Type | Combined Score | Personality Score | Perception Score | Gender Score | f_out_any | bring_back_flag | Sensitivity Breaches | Climate Breaches |\n"
-            "|-------------|-----------|----------------|-------------------|------------------|--------------|-----------|------------------|----------------------|------------------|\n"
+            "| Accord ID | Accord Name | Note Type | Combined Score | Personality Score | Perception Score | Gender Score | f_out_any | bring_back_flag | Sensitivity Breaches | Climate Breaches |\n"
+            "|-----------|-------------|-----------|----------------|-------------------|------------------|--------------|-----------|------------------|----------------------|------------------|\n"
         )
         for acc in formatted_accords:
             markdown_table += (
-                f"| {acc['name']} | {acc['note_type']} | {acc['combined_score']:.4f} | "
+                f"| {acc['key']} | {acc['name']} | {acc['note_type']} | {acc['combined_score']:.4f} | "
                 f"{acc['personality_score']:.4f} | {acc['perception_score']:.4f} | {acc['gender_score']:.4f} | "
                 f"{acc['f_out_any']} | {acc['bring_back_flag']} | "
                 f"{acc['sensitivity_breach_count']} | {acc['climate_breach_count']} |\n"

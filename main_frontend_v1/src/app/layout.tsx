@@ -4,6 +4,8 @@ import { cormorant, inter } from "@/lib/fonts";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ComingSoonProvider } from "@/components/coming-soon/coming-soon-provider";
+import { ClarityProvider } from "@/components/clarity-provider/clarity-provider";
+
 
 export const metadata: Metadata = {
   title: "Crafted Sprays — Personalised Fragrance",
@@ -27,6 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
       <body className="grain-overlay relative min-h-screen bg-bg text-text-primary">
+        <ClarityProvider />
         <ComingSoonProvider>
           <Header />
           <main>{children}</main>

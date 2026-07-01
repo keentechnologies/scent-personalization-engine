@@ -23,7 +23,7 @@ class LLMRecommendationService:
             )
 
         # Load system prompt from txt file
-        system_prompt = PromptLoader.load_system_prompt()
+        system_prompt = PromptLoader.load_system_prompt("system_prompt_json.txt")
 
         # Format input data (raw scores JSON table)
         formatter = DataFormatter(self.db)
@@ -41,11 +41,12 @@ class LLMRecommendationService:
             }
         ]
 
-        # Call OpenAI Chat Completion
+        # Call OpenAI Chat Completion with JSON mode enabled
         response = self.client.chat.completions.create(
             model=self.model,
             messages=messages,
-            temperature=0.7
+            temperature=0.7,
+            response_format={"type": "json_object"}
         )
 
         recommendation_text = response.choices[0].message.content

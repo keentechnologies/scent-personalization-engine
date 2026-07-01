@@ -1,5 +1,5 @@
 from uuid import UUID
-from typing import Optional
+from typing import Optional, Union, Dict, Any
 
 from pydantic import BaseModel
 
@@ -13,4 +13,4 @@ class GenerateRecommendationRequest(BaseModel):
 class GenerateRecommendationResponse(BaseModel):
 
     success: bool
-    message: str
+    message: Union[str, Dict[str, Any], Any]
