@@ -1,9 +1,19 @@
+import type { Metadata } from "next";
 import { Hero } from "@/components/home/hero";
 import { WhyUs } from "@/components/home/why-us";
 import { HowItWorks } from "@/components/home/how-it-works";
 import { Pricing } from "@/components/home/pricing";
 import { Faq } from "@/components/home/faq";
 import { FinalCta } from "@/components/home/final-cta";
+
+export const metadata: Metadata = {
+  title: "Crafted Sprays | Find The Perfume That Truly Suits You",
+  description:
+    "Stop choosing perfumes based on trends, reviews or guesswork. Discover the fragrance that truly suits your personality, lifestyle and preferences.",
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export default function Home() {
   return (

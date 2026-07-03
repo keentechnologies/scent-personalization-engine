@@ -78,7 +78,7 @@ export function Hero() {
                 Discover My Fragrance
                 <ArrowRight className="icon w-[19px] h-[19px]" />
               </button>
-              <Link href="#pricing" className="btn-outline">
+              <Link href="/pricing" className="btn-outline">
                 See Pricing
               </Link>
             </div>

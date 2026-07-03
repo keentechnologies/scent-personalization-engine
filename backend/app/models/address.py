@@ -1,6 +1,6 @@
 from uuid6 import uuid7
 
-from sqlalchemy import String
+from sqlalchemy import String, Boolean
 from sqlalchemy.dialects.postgresql import TIMESTAMP, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import func
@@ -60,6 +60,13 @@ class Address(Base):
 
     pincode: Mapped[str] = mapped_column(
         String(10),
+        nullable=False,
+    )
+
+    # Soft delete column to preserve references in orders table
+    deleted: Mapped[bool] = mapped_column(
+        Boolean,
+        default=False,
         nullable=False,
     )
 

@@ -20,7 +20,7 @@ export function Header() {
       <div className="pointer-events-none fixed left-0 right-0 top-0 z-40 h-[env(safe-area-inset-top)] bg-transparent lg:hidden" />
       <div className="container header-inner relative flex h-[64px] items-center justify-between lg:h-[78px]">
         {/* Logo */}
-        <Link href="#top" className="logo-wrap flex items-center gap-[10px]">
+        <Link href="/" className="logo-wrap flex items-center gap-[10px]">
           <Image
             src="/assets/logo.png"
             alt="Crafted Sprays"
@@ -36,17 +36,20 @@ export function Header() {
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex absolute left-1/2 -translate-x-1/2 gap-[36px] text-[14px] text-text-secondary">
-          <Link href="#why-us" className="hover:text-gold transition-colors">
+          <Link href="/" className="hover:text-gold transition-colors">
+            Home
+          </Link>
+          <Link href="/why-us" className="hover:text-gold transition-colors">
             Why Us
           </Link>
-          <Link href="#how-it-works" className="hover:text-gold transition-colors">
+          <Link href="/how-it-works" className="hover:text-gold transition-colors">
             How It Works
           </Link>
-          <Link href="#pricing" className="hover:text-gold transition-colors">
+          <Link href="/pricing" className="hover:text-gold transition-colors">
             Pricing
           </Link>
-          <Link href="#faq" className="hover:text-gold transition-colors">
-            About Us
+          <Link href="/faq" className="hover:text-gold transition-colors">
+            FAQs
           </Link>
         </nav>
 
@@ -80,28 +83,28 @@ export function Header() {
         } absolute top-full left-0 right-0 border-b border-border bg-[#151311] flex-col px-[24px] pt-[10px] pb-[18px] gap-[4px] lg:hidden`}
       >
         <Link
-          href="#why-us"
+          href="/why-us"
           className="py-[12px] px-[4px] text-[15px] text-text-secondary border-b border-border hover:text-gold"
           onClick={() => setIsOpen(false)}
         >
           Why Us
         </Link>
         <Link
-          href="#how-it-works"
+          href="/how-it-works"
           className="py-[12px] px-[4px] text-[15px] text-text-secondary border-b border-border hover:text-gold"
           onClick={() => setIsOpen(false)}
         >
           How It Works
         </Link>
         <Link
-          href="#pricing"
+          href="/pricing"
           className="py-[12px] px-[4px] text-[15px] text-text-secondary border-b border-border hover:text-gold"
           onClick={() => setIsOpen(false)}
         >
           Pricing
         </Link>
         <Link
-          href="#faq"
+          href="/faq"
           className="py-[12px] px-[4px] text-[15px] text-text-secondary hover:text-gold"
           onClick={() => setIsOpen(false)}
         >

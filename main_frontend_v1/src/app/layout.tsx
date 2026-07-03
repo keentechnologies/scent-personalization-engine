@@ -8,6 +8,7 @@ import { ClarityProvider } from "@/components/clarity-provider/clarity-provider"
 
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://craftedsprays.com"),
   title: "Crafted Sprays — Personalised Fragrance",
   description: "Take a 5-minute discovery to get a fragrance crafted around your personality, preferences and lifestyle. Delivered to your doorstep.",
   appleWebApp: {
@@ -32,7 +33,7 @@ export default function RootLayout({
         <ClarityProvider />
         <ComingSoonProvider>
           <Header />
-          <main>{children}</main>
+          <main className="mt-10">{children}</main>
           <Footer />
         </ComingSoonProvider>
       </body>

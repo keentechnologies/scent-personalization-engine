@@ -9,12 +9,12 @@ from app.schemas.address import AddressCreate, AddressUpdate
 
 def get_user_addresses(db: Session, user_id: UUID) -> list[dict]:
     """
-    Fetches all saved addresses for a user, ordered by most recent.
+    Fetches all non-deleted saved addresses for a user.
     """
     results = (
         db.query(Address, UserAddress.is_default)
         .join(UserAddress, UserAddress.address_id == Address.id)
-        .filter(UserAddress.user_id == user_id)
+        .filter(UserAddress.user_id == user_id, Address.deleted == False)
         .order_by(UserAddress.created_at.desc())
         .all()
     )
@@ -38,13 +38,13 @@ def get_user_addresses(db: Session, user_id: UUID) -> list[dict]:
 
 def create_address(db: Session, user_id: UUID, payload: AddressCreate) -> Address:
     """
-    Creates a new address, making it default by default (and setting others to false).
+    Creates a new address and flags it as default.
     """
     # 1. Set all other addresses for this user to is_default = False
     db.query(UserAddress).filter(UserAddress.user_id == user_id).update({"is_default": False})
     db.flush()
 
-    # 2. Insert into Address table
+    # 2. Insert Address
     addr = Address(
         consignee_name=payload.consignee_name,
         phone_number=payload.phone_number,
@@ -55,11 +55,12 @@ def create_address(db: Session, user_id: UUID, payload: AddressCreate) -> Addres
         city=payload.city,
         state=payload.state,
         pincode=payload.pincode,
+        deleted=False,
     )
     db.add(addr)
     db.flush()
 
-    # 3. Create mapping in UserAddress junction table
+    # 3. Create mapping
     user_addr = UserAddress(
         user_id=user_id,
         address_id=addr.id,
@@ -78,7 +79,7 @@ def update_address(
     payload: AddressUpdate,
 ) -> Optional[Address]:
     """
-    Updates details of an address if it belongs to the user.
+    Updates details of a non-deleted address.
     """
     mapping = (
         db.query(UserAddress)
@@ -88,7 +89,7 @@ def update_address(
     if not mapping:
         return None
 
-    addr = db.query(Address).filter(Address.id == address_id).first()
+    addr = db.query(Address).filter(Address.id == address_id, Address.deleted == False).first()
     if not addr:
         return None
 
@@ -101,8 +102,9 @@ def update_address(
 
 def delete_address(db: Session, user_id: UUID, address_id: UUID) -> bool:
     """
-    Clean deletes an address from the DB.
-    If the deleted address was default, marks the next most recent address as default.
+    Soft-deletes the address by setting 'deleted = True'.
+    Deletes the UserAddress mapping row to remove it from the user's address book view,
+    but retains the Address row in the DB so historical orders can still reference it.
     """
     mapping = (
         db.query(UserAddress)
@@ -115,14 +117,14 @@ def delete_address(db: Session, user_id: UUID, address_id: UUID) -> bool:
     addr = db.query(Address).filter(Address.id == address_id).first()
     was_default = mapping.is_default
 
-    # 1. Delete mapping record first and flush to clear FK constraint
+    # 1. Soft-delete the address row
+    if addr:
+        addr.deleted = True
+        db.flush()
+
+    # 2. Delete the mapping row so it detaches from the user profile
     db.delete(mapping)
     db.flush()
-
-    # 2. Delete the actual address record safely
-    if addr:
-        db.delete(addr)
-        db.flush()
 
     # If deleted default, fallback to next recent address
     if was_default:
