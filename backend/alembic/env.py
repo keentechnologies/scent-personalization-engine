@@ -39,6 +39,7 @@ from app.models.pre_cart_item import PreCartItem
 from app.models.cart_activity_trace import CartActivityTrace
 from app.models.address import Address
 from app.models.user_address import UserAddress
+from app.models.pincode_city_state_mapping_table import PincodeCityStateMappingTable
 
 
 

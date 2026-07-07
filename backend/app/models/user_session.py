@@ -37,6 +37,12 @@ class UserSession(Base):
         nullable=True
     )
 
+    pincode: Mapped[str | None] = mapped_column(
+        String(10),
+        nullable=True,
+        default=None
+    )
+
     status: Mapped[SessionStatus] = mapped_column(
         Enum(SessionStatus),
         default=SessionStatus.ACTIVE,

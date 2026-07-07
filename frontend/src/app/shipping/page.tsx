@@ -10,6 +10,9 @@ import {
   AddressItem,
   AddressPayload,
 } from "@/services/api/address";
+import { getCurrentSession } from "@/services/api/session";
+import { lookupPincode } from "@/services/api/pincode";
+import { getMe } from "@/services/api/auth";
 
 export default function ShippingPage() {
   const router = useRouter();
@@ -33,6 +36,8 @@ export default function ShippingPage() {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [pincode, setPincode] = useState("");
+  const [sessionPincode, setSessionPincode] = useState<string | null>(null);
+  const [userPhoneNumber, setUserPhoneNumber] = useState<string>("");
 
   const loadData = () => {
     setLoading(true);
@@ -53,21 +58,74 @@ export default function ShippingPage() {
 
   useEffect(() => {
     loadData();
+    getCurrentSession()
+      .then((session) => {
+        if (session && session.pincode) {
+          setSessionPincode(session.pincode);
+        }
+      })
+      .catch((e) => console.log("Failed to load active session pincode:", e));
+
+    getMe()
+      .then((user) => {
+        if (user && user.phone_number) {
+          const cleaned = user.phone_number.replace(/\D/g, "");
+          const tenDigits = cleaned.length > 10 ? cleaned.slice(-10) : cleaned;
+          setUserPhoneNumber(tenDigits);
+        }
+      })
+      .catch((e) => console.log("Failed to fetch user info:", e));
   }, []);
 
-  const openAddForm = () => {
+  const openAddForm = async () => {
     setEditingAddress(null);
     setConsigneeName("");
-    setPhoneNumber("");
+    setPhoneNumber(userPhoneNumber);
     setSecondaryPhone("");
     setAddressType("home");
     setAddressLine1("");
     setAddressLine2("");
-    setCity("");
-    setState("");
-    setPincode("");
     setFormError(null);
     setShowForm(true);
+
+    if (sessionPincode) {
+      setPincode(sessionPincode);
+      try {
+        const res = await lookupPincode(sessionPincode);
+        if (res && res.city && res.state) {
+          setCity(res.city);
+          setState(res.state);
+        } else {
+          setCity("");
+          setState("");
+        }
+      } catch (e) {
+        console.error("Failed to lookup session pincode:", e);
+        setCity("");
+        setState("");
+      }
+    } else {
+      setPincode("");
+      setCity("");
+      setState("");
+    }
+  };
+
+  const handlePincodeChange = async (value: string) => {
+    setPincode(value);
+    if (value.length === 6 && /^\d{6}$/.test(value)) {
+      try {
+        const res = await lookupPincode(value);
+        if (res && res.city && res.state) {
+          setCity(res.city);
+          setState(res.state);
+        }
+      } catch (err) {
+        console.log("Pincode not found in mapping table:", err);
+        setCity("");
+        setState("");
+      }
+    }
   };
 
   const openEditForm = (addr: AddressItem) => {
@@ -361,7 +419,7 @@ export default function ShippingPage() {
                   maxLength={6}
                   placeholder="6 digits"
                   value={pincode}
-                  onChange={(e) => setPincode(e.target.value)}
+                  onChange={(e) => handlePincodeChange(e.target.value)}
                   style={{ width: "100%", height: "48px", background: "#1d1a17", border: "1px solid #332d28", borderRadius: "10px", padding: "0 16px", color: "#f3efe8" }}
                 />
               </div>

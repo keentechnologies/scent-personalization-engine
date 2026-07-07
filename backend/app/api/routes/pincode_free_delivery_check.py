@@ -1,13 +1,16 @@
-from fastapi import APIRouter
-from fastapi import HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
 
+from app.core.dependencies import get_db
 from app.schemas.pincode_schema import (
     PincodeCheckRequest,
     PincodeCheckResponse,
+    PincodeLookupResponse,
 )
 
 from app.services.pincode_service import (
     check_pincode_delivery,
+    lookup_pincode_city_state,
 )
 
 router = APIRouter()
@@ -35,3 +38,20 @@ async def check_free_delivery(
             status_code=400,
             detail=str(error),
         )
+
+
+@router.get(
+    "/pincode-lookup/{pincode}",
+    response_model=PincodeLookupResponse,
+)
+def pincode_lookup(
+    pincode: str,
+    db: Session = Depends(get_db),
+):
+    result = lookup_pincode_city_state(db=db, pincode=pincode)
+    if not result:
+        raise HTTPException(
+            status_code=404,
+            detail="Pincode mapping not found",
+        )
+    return result

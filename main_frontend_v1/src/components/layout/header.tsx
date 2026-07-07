@@ -51,6 +51,9 @@ export function Header() {
           <Link href="/faq" className="hover:text-gold transition-colors">
             FAQs
           </Link>
+          <Link href="/about-us" className="hover:text-gold transition-colors">
+            About Us
+          </Link>
         </nav>
 
         {/* Desktop CTA */}

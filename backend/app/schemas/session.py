@@ -13,6 +13,8 @@ class SessionResponse(BaseModel):
 
     status: SessionStatus
 
+    pincode: str | None = None
+
     class Config:
 
         from_attributes = True

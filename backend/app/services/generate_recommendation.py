@@ -39,6 +39,10 @@ def generate_recommendation(
         }
 
 
+    # Save pincode in session
+    session.pincode = payload.pincode
+    db.commit()
+
     # STEP 1 -> calculate climate profile and save into db
     try:
         climate_result = ClimateScoreService(

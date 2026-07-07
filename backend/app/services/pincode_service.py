@@ -1,7 +1,11 @@
 
 
+from sqlalchemy.orm import Session
 from app.integrations.nimbus_post.client import (
     NimbusPostClient,
+)
+from app.models.pincode_city_state_mapping_table import (
+    PincodeCityStateMappingTable,
 )
 
 
@@ -54,3 +58,16 @@ async def check_pincode_delivery(
         "success": True,
         "free_delivery": free_delivery,
     }
+
+
+def lookup_pincode_city_state(
+    db: Session,
+    pincode: str,
+):
+    return (
+        db.query(PincodeCityStateMappingTable)
+        .filter(
+            PincodeCityStateMappingTable.pincode == pincode
+        )
+        .first()
+    )

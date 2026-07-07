@@ -40,3 +40,29 @@ export async function checkFreeDelivery(
 
   return response.json();
 }
+
+export interface PincodeLookupResult {
+  pincode: string;
+  city: string;
+  state: string;
+}
+
+export async function lookupPincode(pincode: string): Promise<PincodeLookupResult> {
+  const token = localStorage.getItem("jwt_token");
+
+  const response = await fetch(
+    `${API_BASE_URL}/pincode-lookup/${pincode}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    throw new Error("Pincode not found");
+  }
+
+  return response.json();
+}
