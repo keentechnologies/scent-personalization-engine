@@ -164,8 +164,8 @@ export function Hero() {
                 Rishabh S. &middot; Bengaluru
               </p>
             </div>
-            <p className="text-text-secondary mobile-trust-line text-[12.5px] mb-[24px] text-center">
-              Trusted by thousands of customers across India
+            <p className="text-text-secondary mobile-trust-line text-[12.5px] mb-[24px] text-center !hiddden">
+              {/* Trusted by thousands of customers across India */}
             </p>
 
             {/* Mobile Trust Badges */}

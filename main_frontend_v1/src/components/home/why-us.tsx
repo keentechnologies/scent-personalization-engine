@@ -176,7 +176,7 @@ export function WhyUs() {
             </p>
             <div className="mt-[22px] flex justify-center">
               <button onClick={openComingSoon} className="btn-gold">
-                Make It Yours For ₹1200 Only
+                Make It Yours For ₹800 Only
               </button>
             </div>
           </div>
