@@ -67,7 +67,7 @@ export function Pricing() {
                   className="relative z-10 w-full h-auto object-contain filter drop-shadow-[0_25px_50px_rgba(0,0,0,0.5)]"
                 />
               </div>
-              <p className="heading-serif text-gold pricing-price text-[24px] mt-[12px] mb-[2px]">₹1,200</p>
+              <p className="heading-serif text-gold pricing-price text-[24px] mt-[12px] mb-[2px]">₹800</p>
               <p className="text-text-secondary pricing-price-note text-[12px]">(All taxes included)</p>
             </div>
 
@@ -107,7 +107,7 @@ export function Pricing() {
               </div>
 
               <button onClick={openComingSoon} className="btn-gold pricing-cta w-full justify-center whitespace-normal text-center">
-                Start Discovery ₹1,200
+                Start Discovery ₹800
                 <ArrowRight className="icon w-[19px] h-[19px]" />
               </button>
             </div>
@@ -131,7 +131,7 @@ export function Pricing() {
                   className="relative z-10 w-full h-auto object-contain filter drop-shadow-[0_25px_50px_rgba(0,0,0,0.5)]"
                 />
               </div>
-              <p className="heading-serif text-gold pricing-price text-[24px] mt-[12px] mb-[2px]">₹2,000</p>
+              <p className="heading-serif text-gold pricing-price text-[24px] mt-[12px] mb-[2px]">₹1,200</p>
               <p className="text-text-secondary pricing-price-note text-[12px]">(All taxes included)</p>
             </div>
 
@@ -171,7 +171,7 @@ export function Pricing() {
               </div>
 
               <button onClick={openComingSoon} className="btn-gold pricing-cta w-full justify-center whitespace-normal text-center">
-                Start Discovery ₹2,000
+                Start Discovery ₹1,200
                 <ArrowRight className="icon w-[19px] h-[19px]" />
               </button>
             </div>
@@ -224,13 +224,13 @@ export function Pricing() {
                   <h3 className="mp-size text-[19px] text-text-primary font-semibold mb-[4px]">50ml size</h3>
                   <p className="text-text-secondary text-[11px] uppercase tracking-wider">Perfect to discover</p>
                 </div>
-                <p className="mp-price text-[24px] text-gold font-bold heading-serif">₹1,200</p>
+                <p className="mp-price text-[24px] text-gold font-bold heading-serif">₹800</p>
               </div>
               <p className="mp-sub text-text-secondary text-[12.5px] leading-[1.5] mb-[18px]">
                 Perfect to discover your signature fragrance. Custom-crafted, premium glass bottle, and delivered in 4 days.
               </p>
               <button onClick={openComingSoon} className="mp-btn flex items-center justify-center gap-[8px] w-full border border-gold rounded-[8px] py-[14px] text-gold text-[14px] font-semibold">
-                Start Discovery ₹1,200
+                Start Discovery ₹800
                 <ArrowRight className="w-[15px] h-[15px]" />
               </button>
             </div>
@@ -255,13 +255,13 @@ export function Pricing() {
                   <h3 className="mp-size text-[19px] text-text-primary font-semibold mb-[4px]">100ml size</h3>
                   <p className="text-text-secondary text-[11px] uppercase tracking-wider">Best value pack</p>
                 </div>
-                <p className="mp-price text-[24px] text-gold font-bold heading-serif">₹2,000</p>
+                <p className="mp-price text-[24px] text-gold font-bold heading-serif">₹1,200</p>
               </div>
               <p className="mp-sub text-text-secondary text-[12.5px] leading-[1.5] mb-[18px]">
                 Recommended for daily wear. Twice the volume, better value per ml, and longer lasting fragrance supply.
               </p>
               <button onClick={openComingSoon} className="mp-btn flex items-center justify-center gap-[8px] w-full border border-gold rounded-[8px] py-[14px] text-gold text-[14px] font-semibold">
-                Start Discovery ₹2,000
+                Start Discovery ₹1,200
                 <ArrowRight className="w-[15px] h-[15px]" />
               </button>
             </div>

@@ -6,6 +6,7 @@ import {
   type ReactNode,
   useContext,
   useState,
+  useEffect,
 } from "react";
 import { ComingSoonPopup } from "./coming_soon_popup";
 
@@ -17,6 +18,15 @@ const ComingSoonContext = createContext<ComingSoonContextValue | null>(null);
 
 export function ComingSoonProvider({ children }: { children: ReactNode }) {
   const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("preregister") === "true") {
+        setIsOpen(true);
+      }
+    }
+  }, []);
 
   return (
     <ComingSoonContext.Provider

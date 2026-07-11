@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Pricing } from "@/components/home/pricing";
 
 export const metadata: Metadata = {
-  title: "Personalised Perfume From ₹1299 | Crafted Sprays",
+  title: "Personalised Perfume From ₹800 | Crafted Sprays",
   description:
     "Explore transparent pricing, premium packaging and everything included with your personalised fragrance recommendation.",
   alternates: {
