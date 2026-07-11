@@ -1,7 +1,7 @@
 from uuid6 import uuid7
 
-from sqlalchemy import String, SmallInteger, Integer
-from sqlalchemy.dialects.postgresql import TIMESTAMP, UUID, JSONB
+from sqlalchemy import String, Integer, ForeignKey
+from sqlalchemy.dialects.postgresql import TIMESTAMP, UUID
 from sqlalchemy.orm import Mapped, mapped_column
 from sqlalchemy.sql import func
 
@@ -27,34 +27,33 @@ class CartActivityTrace(Base):
         nullable=False,
     )
 
-    # select, unselect, qty_change, checkout_init
+    pre_cart_item_id: Mapped[UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("pre_cart_items.id", ondelete="CASCADE"),
+        nullable=True,
+    )
+
+    combo_name: Mapped[str] = mapped_column(
+        String,
+        nullable=True,
+    )
+
     action_type: Mapped[str] = mapped_column(
         String,
         nullable=False,
     )
 
-    recommendation_rank: Mapped[int] = mapped_column(
-        SmallInteger,
-        nullable=False,
-    )
-
-    combo_name: Mapped[str] = mapped_column(
+    size: Mapped[str] = mapped_column(
         String,
-        nullable=False,
+        nullable=True,
     )
 
-    formula_snapshot: Mapped[dict] = mapped_column(
-        JSONB,
-        nullable=False,
-        default=dict,
-    )
-
-    old_quantity: Mapped[int] = mapped_column(
+    old_qty: Mapped[int] = mapped_column(
         Integer,
         nullable=True,
     )
 
-    new_quantity: Mapped[int] = mapped_column(
+    new_qty: Mapped[int] = mapped_column(
         Integer,
         nullable=True,
     )

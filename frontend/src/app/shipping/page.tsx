@@ -232,7 +232,7 @@ export default function ShippingPage() {
   return (
     <main style={{ minHeight: "100vh", background: "#151311", paddingBottom: "120px" }}>
       {/* Header */}
-      <div style={{ borderBottom: "1px solid #1d1a17", padding: "28px 32px 24px", background: "rgba(21,19,17,0.95)", sticky: "top" }}>
+      <div style={{ borderBottom: "1px solid #1d1a17", padding: "28px 32px 24px", background: "rgba(21,19,17,0.95)", position: "sticky", top: 0, zIndex: 10 }}>
         <h1 className="heading-serif" style={{ fontSize: "28px", marginBottom: "4px" }}>
           Shipping Address
         </h1>

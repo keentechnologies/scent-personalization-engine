@@ -37,6 +37,8 @@ from app.models.user_accord_score_table import UserAccordScoreTable
 from app.models.final_user_recommendation import FinalUserRecommendation
 from app.models.pre_cart_item import PreCartItem
 from app.models.cart_activity_trace import CartActivityTrace
+from app.models.price_config import PriceConfig
+from app.models.cart_item import CartItem
 from app.models.address import Address
 from app.models.user_address import UserAddress
 from app.models.pincode_city_state_mapping_table import PincodeCityStateMappingTable
