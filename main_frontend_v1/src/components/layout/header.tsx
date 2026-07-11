@@ -108,6 +108,13 @@ export function Header() {
         </Link>
         <Link
           href="/faq"
+          className="py-[12px] px-[4px] text-[15px] text-text-secondary border-b border-border hover:text-gold"
+          onClick={() => setIsOpen(false)}
+        >
+          FAQs
+        </Link>
+        <Link
+          href="/about-us"
           className="py-[12px] px-[4px] text-[15px] text-text-secondary hover:text-gold"
           onClick={() => setIsOpen(false)}
         >
