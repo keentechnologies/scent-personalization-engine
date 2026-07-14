@@ -80,8 +80,8 @@ export default function ClimateStage() {
       const response = await generateRecommendations(payload);
       console.log("Recommendations generated successfully", response);
 
-      // Redirect to recommendation page after successful generation
-      router.push("/recommendation");
+      // Redirect to cart page after successful generation
+      router.push("/cart");
     } catch (error) {
       console.log("FAILED TO GENERATE RECOMMENDATIONS", error);
       setProcessing(false);
