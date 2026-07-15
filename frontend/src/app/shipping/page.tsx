@@ -217,8 +217,8 @@ export default function ShippingPage() {
   };
 
   const handleProceedToPayment = () => {
-    alert("Moving to payments with Address ID: " + selectedAddressId);
-    // Proceed to payments routing will happen here in future
+    if (!selectedAddressId) return;
+    router.push(`/checkout?address_id=${selectedAddressId}`);
   };
 
   if (loading) {

@@ -42,6 +42,8 @@ from app.models.cart_item import CartItem
 from app.models.address import Address
 from app.models.user_address import UserAddress
 from app.models.pincode_city_state_mapping_table import PincodeCityStateMappingTable
+from app.models.order import Order
+from app.models.order_item import OrderItem
 
 
 

@@ -19,6 +19,7 @@ from app.api.routes.pincode_free_delivery_check import router as pincode_router
 from app.api.routes.recommendation import router as recommendation_router
 from app.api.routes.cart import router as cart_router
 from app.api.routes.address import router as address_router
+from app.api.routes.order import router as order_router
 
 app = FastAPI()
 
@@ -51,6 +52,7 @@ app.include_router(pincode_router)
 app.include_router(recommendation_router)
 app.include_router(cart_router)
 app.include_router(address_router)
+app.include_router(order_router)
 
 app.mount(
     "/static",

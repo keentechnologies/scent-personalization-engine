@@ -19,6 +19,8 @@ class Settings:
     MSG91_AUTH_KEY = os.getenv("MSG91_AUTH_KEY")
     OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
     OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o")
+    RAZORPAY_KEY_ID = os.getenv("RAZORPAY_KEY_ID")
+    RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET")
 
 
 settings = Settings()

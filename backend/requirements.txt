@@ -12,3 +12,4 @@ passlib[bcrypt]
 httpx
 openai
 openpyxl
+razorpay
