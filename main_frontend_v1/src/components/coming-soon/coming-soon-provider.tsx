@@ -24,13 +24,28 @@ export function ComingSoonProvider({ children }: { children: ReactNode }) {
       const params = new URLSearchParams(window.location.search);
       if (params.get("preregister") === "true") {
         setIsOpen(true);
+        if (typeof window !== "undefined" && typeof window.gtag === "function") {
+          window.gtag("event", "coming_soon_opened", {
+            trigger: "url_param",
+            preregister: "true",
+          });
+        }
       }
     }
   }, []);
 
   return (
     <ComingSoonContext.Provider
-      value={{ openComingSoon: () => setIsOpen(true) }}
+      value={{
+        openComingSoon: () => {
+          setIsOpen(true);
+          if (typeof window !== "undefined" && typeof window.gtag === "function") {
+            window.gtag("event", "coming_soon_opened", {
+              trigger: "button_click",
+            });
+          }
+        },
+      }}
     >
       {children}
       <ComingSoonPopup isOpen={isOpen} onClose={() => setIsOpen(false)} />

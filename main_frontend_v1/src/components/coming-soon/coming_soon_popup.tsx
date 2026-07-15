@@ -46,6 +46,15 @@ export function ComingSoonPopup({ isOpen, onClose }: ComingSoonPopupProps) {
       if (response.ok) {
         setSuccess(true);
         setPhone("");
+        if (typeof window !== "undefined" && typeof window.gtag === "function") {
+          window.gtag("event", "preregister_success", {
+            event_category: "engagement",
+            event_label: "coming_soon_registration",
+          });
+          window.gtag("event", "conversion", {
+            send_to: "AW-17772674522",
+          });
+        }
       } else {
         const data = await response.json();
         setError(data.error || "Something went wrong. Please try again.");

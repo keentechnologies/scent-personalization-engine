@@ -5,6 +5,8 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { ComingSoonProvider } from "@/components/coming-soon/coming-soon-provider";
 import { ClarityProvider } from "@/components/clarity-provider/clarity-provider";
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { Suspense } from "react";
 
 import Script from "next/script";
 
@@ -39,11 +41,14 @@ export default function RootLayout({
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
 
-            gtag('config', 'AW-17772674522');
+            gtag('config', 'AW-17772674522', { send_page_view: false });
           `}
         </Script>
       </head>
       <body className="grain-overlay relative min-h-screen bg-bg text-text-primary">
+        <Suspense fallback={null}>
+          <GoogleAnalytics />
+        </Suspense>
         <ClarityProvider />
         <ComingSoonProvider>
           <Header />
